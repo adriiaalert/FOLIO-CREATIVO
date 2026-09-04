@@ -104,6 +104,8 @@ h1, h2 { text-wrap: balance; }
 .skip-link:focus { top: 1rem; }
 
 .section-inner {
+  position: relative;
+  z-index: 1;
   max-width: var(--max-w);
   margin-inline: auto;
   padding-inline: var(--gutter);
@@ -114,6 +116,8 @@ h1, h2 { text-wrap: balance; }
    4. Tipografía
    ============================================================= */
 .kicker {
+  position: relative;
+  display: inline-block;
   font-family: var(--sans);
   font-size: 0.7rem;
   font-weight: 400;
@@ -121,7 +125,22 @@ h1, h2 { text-wrap: balance; }
   text-transform: uppercase;
   color: var(--ruby);
   margin-bottom: 1.4rem;
+  padding-bottom: 0.6rem;
 }
+
+/* trazo que se dibuja bajo el kicker cuando entra en viewport — ver data-revealed en script.js */
+.kicker::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ruby-dim);
+  transform: translateX(-50%);
+  transition: width 0.9s var(--ease-out) 0.15s;
+}
+.kicker[data-revealed]::after { width: 2.4em; }
 
 .section-title {
   font-family: var(--serif);
@@ -188,9 +207,10 @@ h1, h2 { text-wrap: balance; }
 .hero-mark {
   width: min(38vw, 170px);
   height: auto;
-  opacity: 0;
   filter: drop-shadow(0 0 26px rgba(139, 0, 0, 0.35));
-  animation: markIn 2.6s var(--ease-soft) 0.3s forwards;
+  /* Sin opacity:0 / animation aquí a propósito: es el estado base sin JS.
+     GSAP (initHeroLogo en script.js) oculta y anima cada trazo por separado
+     cuando está disponible; si no carga, el logo se ve completo y estático. */
 }
 
 .hero-title {
@@ -198,11 +218,13 @@ h1, h2 { text-wrap: balance; }
   font-family: var(--sans);
   font-weight: 200;
   font-size: clamp(1.4rem, 6vw, 2.1rem);
-  letter-spacing: 0.02em;
   color: var(--ruby);
-  opacity: 0;
-  animation: titleIn 2s var(--ease-out) 2.3s forwards;
 }
+
+.hero-title__letter {
+  display: inline-block;
+}
+.hero-title__letter + .hero-title__letter { margin-left: 0.34em; }
 
 .hero-hint {
   position: absolute;
@@ -241,9 +263,27 @@ h1, h2 { text-wrap: balance; }
   background: var(--bg);
 }
 
-.video-section { background: var(--bg); }
-.cipher-section { background: var(--bg-soft); }
-.capture-section { background: var(--bg); }
+/* Ritmo deliberadamente distinto por sección — evita el "hero-texto-hero-texto"
+   siempre-igual que delata una plantilla. La del cifrado respira más porque
+   ahora también carga el shader de fondo; la de captura es más compacta y directa,
+   como corresponde a un CTA. */
+.video-section {
+  background: var(--bg);
+  padding-top: clamp(3.5rem, 10vh, 6rem);
+}
+
+.cipher-section {
+  background: var(--bg-soft);
+  padding-top: clamp(5.5rem, 17vh, 9rem);
+  padding-bottom: clamp(5.5rem, 17vh, 9rem);
+  overflow: clip;
+}
+
+.capture-section {
+  background: var(--bg);
+  padding-top: clamp(4rem, 12vh, 6.5rem);
+  padding-bottom: clamp(5rem, 15vh, 8rem);
+}
 
 /* =============================================================
    7. Vídeo
@@ -257,6 +297,13 @@ h1, h2 { text-wrap: balance; }
   background: #000;
   box-shadow: 0 0 60px rgba(139, 0, 0, 0.12);
   overflow: hidden;
+  transition: border-color 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+
+.video-frame:hover,
+.video-frame:focus-within {
+  border-color: rgba(196, 30, 58, 0.55);
+  box-shadow: 0 0 80px rgba(139, 0, 0, 0.22);
 }
 
 .video-el, .video-frame iframe {
@@ -283,6 +330,15 @@ h1, h2 { text-wrap: balance; }
   font-size: 1.6rem;
   color: var(--ruby);
   opacity: 0.7;
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+.video-frame:hover .video-placeholder__icon,
+.video-frame:focus-within .video-placeholder__icon {
+  transform: scale(1.15);
+  opacity: 1;
+  color: var(--white);
 }
 
 .video-placeholder p {
@@ -304,11 +360,33 @@ h1, h2 { text-wrap: balance; }
    8. Cifrado
    ============================================================= */
 .cipher {
+  position: relative;
   margin: 2.2rem 0;
   padding: 1.8rem 1rem;
   border-top: 1px solid rgba(196, 30, 58, 0.2);
   border-bottom: 1px solid rgba(196, 30, 58, 0.2);
+  transition: border-color 0.5s var(--ease-out);
 }
+
+.cipher:hover { border-color: rgba(196, 30, 58, 0.4); }
+
+/*
+  Canvas del shader: cubre toda la sección del cifrado, detrás de .section-inner.
+  Solo se activa en desktop con WebGL disponible — ver initCipherShader() en script.js.
+  Si no se activa (móvil, sin WebGL, reduced-motion), simplemente no existe contenido
+  dentro y el fondo sigue siendo --bg-soft de toda la vida: no hay salto visual.
+*/
+.cipher-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-soft);
+  pointer-events: none;
+}
+.cipher-canvas.is-active { opacity: 1; }
 
 .cipher__row {
   display: block;
@@ -435,7 +513,7 @@ h1, h2 { text-wrap: balance; }
 .footer-social__link:hover,
 .footer-social__link:focus-visible {
   color: var(--ruby);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.12);
 }
 
 .footer-fine {
@@ -449,16 +527,6 @@ h1, h2 { text-wrap: balance; }
 /* =============================================================
    11. Efectos / animaciones
    ============================================================= */
-@keyframes markIn {
-  from { opacity: 0; transform: scale(0.94); filter: blur(6px) drop-shadow(0 0 26px rgba(139,0,0,0.35)); }
-  to   { opacity: 1; transform: scale(1); filter: blur(0) drop-shadow(0 0 26px rgba(139,0,0,0.35)); }
-}
-
-@keyframes titleIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes glowIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -520,4 +588,7 @@ h1, h2 { text-wrap: balance; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero-hint__line { animation: none; opacity: 0.6; }
+  /* el shader es un loop continuo → intrusivo. script.js ya no lo arranca con
+     reduced-motion, pero esta regla es la red de seguridad si algo fallara. */
+  .cipher-canvas { display: none; }
 }
