@@ -4,58 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PECADO</title>
-<meta name="description" content="Algo se acerca. Descífralo antes de que sea tarde.">
+<meta name="description" content="Una nueva forma de vivir el tardeo.">
 <meta name="robots" content="noindex, nofollow">
-<!-- noindex a propósito: es una campaña ARG, no queremos que se indexe hasta el anuncio oficial. Quitar cuando se revele la fecha/lugar. -->
+<!-- noindex a propósito: campaña ARG previa al anuncio oficial. Quitar cuando se revele la fecha/lugar. -->
 
-<!-- Open Graph — EDITAR: sustituir og:image por una captura real de la manzana cuando exista assets/og-image.jpg -->
 <meta property="og:title" content="PECADO">
-<meta property="og:description" content="Si has llegado hasta aquí, no ha sido casualidad.">
+<meta property="og:description" content="Una nueva forma de vivir el tardeo.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/og-image.jpg">
-<meta name="theme-color" content="#000000">
+<!-- EDITAR: sustituir por una captura real cuando exista assets/og-image.jpg -->
+<meta name="theme-color" content="#0b0807">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M16 8c-6 0-9 4-9 10 0 6 4 10 9 10s9-4 9-10c0-6-3-10-9-10z' fill='%238B0000'/%3E%3Ccircle cx='22' cy='13' r='5' fill='%23000'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0807'/%3E%3Cpath d='M16 8c-6 0-9 4-9 10 0 6 4 10 9 10s9-4 9-10c0-6-3-10-9-10z' fill='%238B0000'/%3E%3Ccircle cx='22' cy='13' r='5' fill='%230b0807'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <link rel="preload" as="image" href="assets/logo-pecado.svg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20260901">
+<link rel="stylesheet" href="styles.css?v=20260921">
 </head>
 <body>
 
-<a class="skip-link" href="#captura">Ir al formulario</a>
+<a class="skip-link" href="#acceso">Ir al desbloqueo</a>
+
+<!-- Fondo único de grietas de cristal — fijo, detrás de toda la página -->
+<canvas class="glass-crack-canvas" data-glass-crack aria-hidden="true"></canvas>
 
 <!-- ============================================================
-     1. HERO — apertura en negro absoluto
+     1. HEADER / HERO
      ============================================================ -->
-<section class="hero" id="inicio" aria-label="Pecado">
-  <div class="hero-glow" aria-hidden="true"></div>
-
+<header class="hero" id="inicio">
   <div class="hero-content">
-    <img class="hero-mark" src="assets/logo-pecado.svg" alt="Pecado — manzana de cristal mordida, envuelta por una serpiente" width="180" height="210">
+    <img class="hero-mark" src="assets/logo-pecado.svg" alt="" width="150" height="175">
     <h1 class="hero-title">P&nbsp;E&nbsp;C&nbsp;A&nbsp;D&nbsp;O</h1>
+    <p class="hero-tagline">Una nueva forma de vivir el tardeo.</p>
   </div>
 
   <div class="hero-hint" aria-hidden="true">
     <span class="hero-hint__line"></span>
     <span class="hero-hint__text">desliza</span>
   </div>
-</section>
+</header>
+
+<main>
 
 <!-- ============================================================
-     2. VÍDEO DE BIENVENIDA
+     2. VÍDEO
      ============================================================ -->
-<section class="section video-section" aria-label="Vídeo de bienvenida">
+<section class="section video-section" aria-label="Vídeo">
   <div class="section-inner">
-    <p class="kicker reveal">01 — La señal</p>
-    <!-- EDITAR COPY: texto de apertura del vídeo -->
-    <p class="lead reveal">Si has llegado hasta aquí,<br>no ha sido casualidad.</p>
+    <p class="kicker reveal">El aviso</p>
+    <!-- EDITAR COPY -->
+    <p class="lead reveal">Todavía no puedes verlo.<br>Pero ya ha empezado.</p>
 
     <div class="video-frame reveal" data-video-frame>
-      <video class="video-el" data-video controls playsinline preload="metadata" aria-label="Vídeo de bienvenida de Pecado">
+      <video class="video-el" data-video playsinline preload="metadata" aria-label="Vídeo de Pecado">
         <source src="video-bienvenida.mp4" type="video/mp4">
         <!-- Alternativa: incrustar un vídeo privado/no listado de YouTube o Vimeo en vez del archivo local.
         <iframe
@@ -66,107 +70,113 @@
         Tu navegador no soporta la reproducción de vídeo.
       </video>
       <div class="video-placeholder" data-video-placeholder>
-        <span class="video-placeholder__icon">&#9656;</span>
-        <p>Vídeo pendiente de subir.<br><small>Sustituye <code>video-bienvenida.mp4</code> por el archivo definitivo, o descomenta el iframe de arriba.</small></p>
+        <span class="video-placeholder__dot" aria-hidden="true"></span>
+        <p class="video-placeholder__label">Próximamente</p>
       </div>
     </div>
-
-    <!-- EDITAR COPY: texto de cierre / transición hacia el cifrado -->
-    <p class="fine-print reveal">Las reglas se explican una sola vez.</p>
   </div>
 </section>
 
 <!-- ============================================================
-     3. EL CIFRADO — la fecha oculta
+     3. CTA INSTAGRAM
      ============================================================ -->
-<section class="section cipher-section" aria-label="El cifrado">
+<section class="section instagram-section" aria-label="Instagram">
   <div class="section-inner">
-    <p class="kicker reveal">02 — El cifrado</p>
-    <h2 class="section-title reveal">Hay una fecha<br>escondida aquí dentro.</h2>
+    <p class="kicker reveal">El rastro</p>
+    <!-- EDITAR COPY -->
+    <h2 class="section-title reveal">Las pistas<br>están ahí.</h2>
+    <p class="lead lead--small reveal">Todo lo que necesitas ya se ha dicho.<br>Solo tienes que encontrarlo.</p>
 
-    <div class="cipher reveal" role="img" aria-label="Código cifrado por descubrir">
-      <span class="cipher__row" data-cipher data-cipher-length="21">&nbsp;</span>
-      <span class="cipher__row cipher__row--small" data-cipher data-cipher-length="14">&nbsp;</span>
-    </div>
-
-    <p class="lead lead--small reveal">Descífralo.<br>O espera a que te ayudemos.</p>
+    <a class="ig-button reveal" href="https://www.instagram.com/fest.pecado" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+        <circle cx="12" cy="12" r="4"></circle>
+        <circle cx="17.2" cy="6.8" r="1"></circle>
+      </svg>
+      <span>@fest.pecado</span>
+    </a>
   </div>
 </section>
 
 <!-- ============================================================
-     4. CAPTURA DE EMAIL
+     4. DESBLOQUEO + EVENTO BLOQUEADO
      ============================================================ -->
-<section class="section capture-section" id="captura" aria-label="Únete">
+<section class="section unlock-section" id="acceso" aria-label="Desbloqueo">
   <div class="section-inner">
-    <p class="kicker reveal">03 — El acceso</p>
-    <!-- EDITAR COPY: headline principal de captura -->
-    <h2 class="section-title reveal">Te enviaremos<br>las pistas.</h2>
-    <!-- EDITAR COPY: párrafo de captura — sugerir, no explicar del todo -->
-    <p class="lead lead--small reveal">Quienes descifren la fecha antes que el resto,<br>entrarán primero. No hay una segunda oportunidad.</p>
+    <p class="kicker reveal">El acceso</p>
+    <h2 class="section-title reveal">¿Tienes<br>el código?</h2>
+    <p class="lead lead--small reveal">Quien lo descifre, entra primero.</p>
 
-    <form class="capture-form reveal" data-capture-form novalidate>
-      <label class="sr-only" for="email">Tu email</label>
-      <div class="capture-field">
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="capture-input"
-          placeholder="tu@email.com"
-          autocomplete="email"
-          inputmode="email"
-          required>
-        <!-- EDITAR COPY: texto del botón -->
-        <button type="submit" class="capture-submit">Entra</button>
-      </div>
-      <p class="capture-error" data-capture-error role="alert" hidden>Introduce un email válido.</p>
+    <form class="unlock-form reveal" data-unlock-form autocomplete="off">
+      <label class="sr-only" for="unlock-code">Código</label>
+      <input
+        type="text"
+        id="unlock-code"
+        class="unlock-input"
+        data-unlock-input
+        placeholder="CÓDIGO"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        maxlength="24">
+      <button type="submit" class="unlock-submit">Desbloquear</button>
     </form>
+    <p class="unlock-feedback" data-unlock-feedback role="alert" aria-live="polite"></p>
 
-    <div class="capture-success" data-capture-success hidden role="status">
-      <!-- EDITAR COPY: mensaje de confirmación -->
-      <p>Ya estás dentro.<br>Vigila tu bandeja de entrada.</p>
+    <div class="lock-card reveal" data-lock-card>
+      <div class="lock-card__poster" data-lock-poster aria-hidden="true"></div>
+      <div class="lock-card__overlay">
+        <svg class="lock-icon" data-lock-icon viewBox="0 0 60 70" width="40" height="46" aria-hidden="true">
+          <path class="lock-shackle" d="M18,30 V20 a12,12 0 0 1 24,0 V30" fill="none" stroke="#EDE6DD" stroke-width="4" stroke-linecap="round"/>
+          <rect x="10" y="28" width="40" height="34" rx="6" fill="#0b0807" stroke="#C41E3A" stroke-width="1.2"/>
+          <circle cx="30" cy="42" r="4" fill="#C41E3A"/>
+          <rect x="28.5" y="45" width="3" height="8" fill="#C41E3A"/>
+        </svg>
+        <p class="lock-card__label">PECADO</p>
+        <p class="lock-card__date" data-lock-date>???</p>
+        <p class="lock-card__sub" data-lock-sub>Fecha bloqueada</p>
+      </div>
     </div>
+
+    <a class="ticket-link" data-ticket-link href="https://www.fourvenues.com/es/EDITAR-ENLACE-EVENTO" target="_blank" rel="noopener noreferrer" hidden>
+      Comprar entrada →
+    </a>
+    <!-- EDITAR: sustituir por el enlace real de Fourvenues cuando exista el evento -->
 
     <!--
-      Conectar con un servicio real de email marketing aquí (Mailchimp, ConvertKit, Brevo…).
-      El formulario actual solo simula el envío en script.js → handleCaptureSubmit().
+      El código no se guarda en texto plano: se compara su hash SHA-256
+      contra TARGET_HASH en script.js (constante UNLOCK_HASH), usando
+      crypto.subtle. Así, aunque alguien lea el código fuente, no ve
+      la palabra clave directamente.
 
-      Ejemplo de integración real (sustituir el simulateSubmit() en script.js):
+      Para cambiar el código real:
+      1. Abre la consola del navegador en esta misma página.
+      2. Ejecuta: PECADO_HASH("TU_CODIGO_NUEVO").then(console.log)
+      3. Copia el hash resultante en UNLOCK_HASH dentro de script.js.
 
-      fetch("https://TU-ENDPOINT-DE-MAILCHIMP-O-CONVERTKIT", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: value })
-      })
-        .then(res => { if (!res.ok) throw new Error("request failed"); })
-        .then(showSuccess)
-        .catch(showError);
+      El código de demostración actual es "MANZANA".
     -->
   </div>
 </section>
 
+</main>
+
 <!-- ============================================================
-     5. FOOTER minimalista
+     5. FOOTER
      ============================================================ -->
 <footer class="footer">
-  <img class="footer-mark" src="assets/logo-pecado.svg" alt="Pecado" width="36" height="42" loading="lazy">
-
-  <div class="footer-social" aria-label="Redes sociales">
-    <!-- EDITAR: sustituir "#" por los enlaces reales -->
-    <a href="#" class="footer-social__link" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
-    </a>
-    <a href="#" class="footer-social__link" aria-label="TikTok">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v9.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c.6 2.4 2.2 4 4.5 4.3"/></svg>
-    </a>
-    <a href="#" class="footer-social__link" aria-label="X / Twitter">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l16 16M20 4L4 20"/></svg>
-    </a>
-  </div>
-
+  <img class="footer-mark" src="assets/logo-pecado.svg" alt="Pecado" width="30" height="35" loading="lazy">
+  <a href="https://www.instagram.com/fest.pecado" class="footer-social__link" target="_blank" rel="noopener noreferrer" aria-label="Instagram — @fest.pecado">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+      <circle cx="12" cy="12" r="4"></circle>
+      <circle cx="17.2" cy="6.8" r="1"></circle>
+    </svg>
+  </a>
   <p class="footer-fine">&copy; <span data-year>2026</span> PECADO</p>
 </footer>
 
-<script defer src="script.js?v=20260901"></script>
+<script defer src="glass-crack-bg.js?v=20260921"></script>
+<script defer src="script.js?v=20260921"></script>
 </body>
 </html>

@@ -10,7 +10,16 @@
   }
 
   /* ---------------------------------------------------------
-     Reveal on scroll — fade-in con IntersectionObserver
+     Fondo de grietas de cristal (glass-crack-bg.js)
+     --------------------------------------------------------- */
+  function initGlassCrack() {
+    var canvas = $("[data-glass-crack]");
+    if (!canvas || !window.PecadoGlassCrack) return;
+    window.PecadoGlassCrack.mount(canvas);
+  }
+
+  /* ---------------------------------------------------------
+     Reveal on scroll
      --------------------------------------------------------- */
   function initReveals() {
     var els = $$(".reveal");
@@ -32,7 +41,6 @@
 
     els.forEach(function (el) { io.observe(el); });
 
-    // red de seguridad: si algo se queda oculto por cualquier motivo, revelarlo a los 6s
     window.setTimeout(function () {
       els.forEach(function (el) {
         if (!el.classList.contains("is-visible") && el.getBoundingClientRect().top < window.innerHeight) {
@@ -43,164 +51,127 @@
   }
 
   /* ---------------------------------------------------------
-     Parallax sutil del resplandor del hero
-     --------------------------------------------------------- */
-  function initParallax() {
-    var glow = $(".hero-glow");
-    var hero = $(".hero");
-    if (!glow || !hero || reduced) return;
-
-    var ticking = false;
-    function update() {
-      var y = window.scrollY || window.pageYOffset;
-      var shift = Math.min(y * 0.06, 24); // desplazamiento muy contenido, nunca "juguetón"
-      glow.style.transform = "translateY(" + shift + "px)";
-      ticking = false;
-    }
-    window.addEventListener("scroll", function () {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    }, { passive: true });
-  }
-
-  /* ---------------------------------------------------------
-     Cifrado — efecto de caracteres decodificándose
-     No revela nunca la fecha real: es puzzle visual, no la clave.
-     --------------------------------------------------------- */
-  var CIPHER_CHARS = "01#$%&ΔΞΨ¥§¤†‡•∆∇∞≡≠XVI";
-
-  function randomChar() {
-    return CIPHER_CHARS.charAt(Math.floor(Math.random() * CIPHER_CHARS.length));
-  }
-
-  function scrambleString(length) {
-    var out = "";
-    for (var i = 0; i < length; i++) {
-      out += Math.random() < 0.16 ? " " : randomChar();
-    }
-    return out;
-  }
-
-  function runCipherRow(el) {
-    var length = parseInt(el.getAttribute("data-cipher-length"), 10) || 18;
-    var frame = 0;
-    var settleAt = 10 + Math.floor(Math.random() * 6);
-
-    var tick = window.setInterval(function () {
-      frame++;
-      el.textContent = scrambleString(length);
-      if (frame >= settleAt) {
-        window.clearInterval(tick);
-        el.dataset.cipherTimer = "";
-      }
-    }, 90);
-
-    el.dataset.cipherTimer = String(tick);
-  }
-
-  function initCipher() {
-    var rows = $$("[data-cipher]");
-    if (!rows.length) return;
-
-    rows.forEach(function (row) { runCipherRow(row); });
-
-    if (reduced) return; // el efecto continuo en bucle se considera intrusivo; una sola pasada basta
-
-    // vuelve a "descifrarse" cada pocos segundos, como si algo intentara comunicarse
-    window.setInterval(function () {
-      rows.forEach(function (row) { runCipherRow(row); });
-    }, 7000);
-  }
-
-  /* ---------------------------------------------------------
-     Vídeo de bienvenida — placeholder si el archivo no existe
+     Vídeo — placeholder "Próximamente" si el archivo no existe
      --------------------------------------------------------- */
   function initVideo() {
     var frame = $("[data-video-frame]");
     var video = $("[data-video]");
     if (!frame || !video) return;
 
-    video.addEventListener("loadeddata", function () {
-      frame.classList.add("is-ready");
-    });
+    video.addEventListener("loadeddata", function () { frame.classList.add("is-ready"); });
+    video.addEventListener("error", function () { frame.classList.remove("is-ready"); }, true);
 
-    video.addEventListener("error", function () {
-      frame.classList.remove("is-ready");
-    }, true);
-
-    // si a los 2.5s no ha cargado nada, asumimos que el archivo aún no existe
     window.setTimeout(function () {
       if (video.readyState === 0) frame.classList.remove("is-ready");
     }, 2500);
   }
 
   /* ---------------------------------------------------------
-     Formulario de captura de email
+     Glitch sutil en el póster del evento bloqueado
      --------------------------------------------------------- */
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function initPosterGlitch() {
+    if (reduced) return;
+    var poster = $("[data-lock-poster]");
+    var card = $("[data-lock-card]");
+    if (!poster || !card) return;
 
-  function initCaptureForm() {
-    var form = $("[data-capture-form]");
+    window.setInterval(function () {
+      if (card.classList.contains("is-unlocked")) return;
+      poster.classList.remove("is-glitching");
+      // fuerza reflow para poder relanzar la animación
+      void poster.offsetWidth;
+      poster.classList.add("is-glitching");
+    }, 4200 + Math.random() * 2600);
+  }
+
+  /* ---------------------------------------------------------
+     Desbloqueo por código — el código nunca se guarda en claro,
+     solo se compara su hash SHA-256 (Web Crypto API).
+     --------------------------------------------------------- */
+
+  // sha256("MANZANA") — código de demostración. Ver comentario en index.html
+  // para generar el hash del código real sin exponerlo en el fuente.
+  var UNLOCK_HASH = "121261926c6a671bfc49145e472ccb1f04e15f8addacf59870aaef4560bc9d5a";
+
+  function sha256Hex(text) {
+    var enc = new TextEncoder().encode(text);
+    return window.crypto.subtle.digest("SHA-256", enc).then(function (buf) {
+      var bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    });
+  }
+
+  // Helper de consola para generar el hash de un código nuevo sin
+  // tener que escribirlo nunca en texto plano dentro del repositorio.
+  window.PECADO_HASH = function (code) {
+    return sha256Hex(String(code || "").trim().toUpperCase());
+  };
+
+  function initUnlock() {
+    var form = $("[data-unlock-form]");
     if (!form) return;
 
-    var input = $("#email", form);
-    var errorEl = $("[data-capture-error]", form);
-    var submitBtn = $(".capture-submit", form);
-    var successEl = $("[data-capture-success]");
+    var input = $("[data-unlock-input]", form);
+    var submitBtn = $(".unlock-submit", form);
+    var feedback = $("[data-unlock-feedback]");
+    var card = $("[data-lock-card]");
+    var sub = $("[data-lock-sub]");
+    var ticket = $("[data-ticket-link]");
 
-    function showError(message) {
-      errorEl.textContent = message;
-      errorEl.hidden = false;
-      input.setAttribute("aria-invalid", "true");
+    if (!window.crypto || !window.crypto.subtle) {
+      feedback.textContent = "Tu navegador no soporta esta comprobación.";
+      feedback.classList.add("is-visible");
+      submitBtn.disabled = true;
+      return;
     }
 
-    function clearError() {
-      errorEl.hidden = true;
-      input.removeAttribute("aria-invalid");
+    function setFeedback(text, success) {
+      feedback.textContent = text;
+      feedback.classList.add("is-visible");
+      feedback.classList.toggle("is-success", !!success);
     }
 
-    function showSuccess() {
-      form.hidden = true;
-      successEl.hidden = false;
-      successEl.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+    function unlock() {
+      card.classList.add("is-unlocked");
+      sub.textContent = "Acceso concedido";
+      setFeedback("Correcto. Bienvenido al pecado.", true);
+      ticket.hidden = false;
+      window.setTimeout(function () {
+        ticket.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+        ticket.focus({ preventScroll: true });
+      }, reduced ? 0 : 700);
     }
 
-    // Simula el envío. Sustituir por una llamada real a un servicio
-    // de email marketing (ver comentario extenso en index.html, sección 4).
-    function simulateSubmit(email) {
-      return new Promise(function (resolve) {
-        window.setTimeout(resolve, 700);
-      });
+    function reject() {
+      setFeedback("Ese no es. Sigue buscando.", false);
+      input.classList.remove("is-error");
+      void input.offsetWidth;
+      input.classList.add("is-error");
     }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      clearError();
-
-      var value = input.value.trim();
-      if (!EMAIL_RE.test(value)) {
-        showError("Introduce un email válido.");
-        input.focus();
-        return;
-      }
+      var value = input.value.trim().toUpperCase();
+      if (!value) return;
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "…";
-
-      simulateSubmit(value)
-        .then(showSuccess)
+      sha256Hex(value)
+        .then(function (hash) {
+          if (hash === UNLOCK_HASH) unlock();
+          else reject();
+        })
         .catch(function () {
-          showError("Algo ha fallado. Inténtalo de nuevo.");
+          setFeedback("Algo ha fallado. Inténtalo de nuevo.", false);
         })
         .finally(function () {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Entra";
         });
     });
 
-    input.addEventListener("input", clearError);
+    input.addEventListener("input", function () {
+      input.value = input.value.toUpperCase();
+      input.classList.remove("is-error");
+    });
   }
 
   /* ---------------------------------------------------------
@@ -215,11 +186,11 @@
      Boot
      --------------------------------------------------------- */
   function boot() {
+    safe(initGlassCrack, "initGlassCrack");
     safe(initReveals, "initReveals");
-    safe(initParallax, "initParallax");
-    safe(initCipher, "initCipher");
     safe(initVideo, "initVideo");
-    safe(initCaptureForm, "initCaptureForm");
+    safe(initPosterGlitch, "initPosterGlitch");
+    safe(initUnlock, "initUnlock");
     safe(initFooterYear, "initFooterYear");
     document.documentElement.classList.add("is-ready");
   }
