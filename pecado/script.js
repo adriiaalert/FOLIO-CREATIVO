@@ -10,6 +10,15 @@
   }
 
   /* ---------------------------------------------------------
+     Fondo de grietas de cristal (glass-crack-bg.js)
+     --------------------------------------------------------- */
+  function initGlassCrack() {
+    var canvas = $("[data-glass-crack]");
+    if (!canvas || !window.PecadoGlassCrack) return;
+    window.PecadoGlassCrack.mount(canvas);
+  }
+
+  /* ---------------------------------------------------------
      Reveal on scroll
      — Con GSAP + ScrollTrigger disponibles: cada elemento anima con su propio
        timing (varía el ritmo entre kicker/lead/título/vídeo en vez de un único
@@ -73,29 +82,6 @@
         }
       });
     }, 6000);
-  }
-
-  /* ---------------------------------------------------------
-     Parallax sutil del resplandor del hero
-     --------------------------------------------------------- */
-  function initParallax() {
-    var glow = $(".hero-glow");
-    var hero = $(".hero");
-    if (!glow || !hero || reduced) return;
-
-    var ticking = false;
-    function update() {
-      var y = window.scrollY || window.pageYOffset;
-      var shift = Math.min(y * 0.06, 24); // desplazamiento muy contenido, nunca "juguetón"
-      glow.style.transform = "translateY(" + shift + "px)";
-      ticking = false;
-    }
-    window.addEventListener("scroll", function () {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    }, { passive: true });
   }
 
   /* ---------------------------------------------------------
@@ -173,306 +159,132 @@
   }
 
   /* ---------------------------------------------------------
-     Cifrado — efecto de caracteres decodificándose
-     No revela nunca la fecha real: es puzzle visual, no la clave.
-     --------------------------------------------------------- */
-  var CIPHER_CHARS = "01#$%&ΔΞΨ¥§¤†‡•∆∇∞≡≠XVI";
-
-  function randomChar() {
-    return CIPHER_CHARS.charAt(Math.floor(Math.random() * CIPHER_CHARS.length));
-  }
-
-  function scrambleString(length) {
-    var out = "";
-    for (var i = 0; i < length; i++) {
-      out += Math.random() < 0.16 ? " " : randomChar();
-    }
-    return out;
-  }
-
-  function runCipherRow(el) {
-    var length = parseInt(el.getAttribute("data-cipher-length"), 10) || 18;
-    var frame = 0;
-    var settleAt = 10 + Math.floor(Math.random() * 6);
-
-    var tick = window.setInterval(function () {
-      frame++;
-      el.textContent = scrambleString(length);
-      if (frame >= settleAt) {
-        window.clearInterval(tick);
-        el.dataset.cipherTimer = "";
-      }
-    }, 90);
-
-    el.dataset.cipherTimer = String(tick);
-  }
-
-  function initCipher() {
-    var rows = $$("[data-cipher]");
-    if (!rows.length) return;
-
-    rows.forEach(function (row) { runCipherRow(row); });
-
-    if (reduced) return; // el efecto continuo en bucle se considera intrusivo; una sola pasada basta
-
-    // vuelve a "descifrarse" cada pocos segundos, como si algo intentara comunicarse
-    window.setInterval(function () {
-      rows.forEach(function (row) { runCipherRow(row); });
-    }, 7000);
-  }
-
-  /* ---------------------------------------------------------
-     Shader del cifrado — WebGL a mano (sin Three.js: este proyecto no tiene
-     build step, y Three.js sería mucho peso para un efecto de fondo).
-     Bandas de glitch horizontal + aberración cromática muy sutiles, en tonos
-     rojo/negro de marca, detrás del bloque de texto cifrado.
-
-     Se desactiva por completo (nunca se crea el contexto WebGL) si:
-       — prefers-reduced-motion: es un loop continuo, así que cuenta como
-         "intrusivo" según el mismo criterio que ya usa initCipher().
-       — viewport < 720px: en vez de intentar "aligerar" el shader en móvil,
-         directamente no corre ahí. Cero coste = cero riesgo de rendimiento.
-       — el navegador no soporta WebGL.
-     En cualquiera de esos casos la sección se queda con el fondo --bg-soft
-     de siempre: no hay hueco visual ni contenido que dependa de esto.
-     --------------------------------------------------------- */
-  function initCipherShader() {
-    if (reduced) return;
-    if (window.innerWidth < 720) return;
-
-    var canvas = $("[data-cipher-canvas]");
-    var section = canvas ? canvas.closest(".cipher-section") : null;
-    if (!canvas || !section) return;
-
-    var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    if (!gl) return;
-
-    var VERT = "attribute vec2 aPos;varying vec2 vUv;" +
-      "void main(){vUv=aPos*0.5+0.5;gl_Position=vec4(aPos,0.0,1.0);}";
-
-    // Bandas de "slice" horizontal + ruido con aberración cromática roja.
-    // fract/sin como hash pseudo-aleatorio: patrón estándar y barato en GLSL.
-    // Constantes deliberadamente bajas: es un fondo atmosférico, no debe competir
-    // con el texto que va encima. sliceY/scan usan cifras fijas (no uResolution)
-    // para que la densidad de líneas no dependa del DPR del dispositivo.
-    var FRAG = "precision mediump float;" +
-      "uniform float uTime;uniform vec2 uResolution;varying vec2 vUv;" +
-      "float hash(vec2 p){return fract(sin(dot(p,vec2(41.3,289.1)))*43758.5453);}" +
-      "void main(){" +
-      "vec2 uv=vUv;float t=uTime;" +
-      "float sliceY=floor(uv.y*22.0);" +
-      "float seed=hash(vec2(sliceY,floor(t*2.5)));" +
-      "float shift=(seed-0.5)*0.01*step(0.95,seed);" +
-      "float ab=0.0014+0.0009*sin(t*0.5);" +
-      "vec2 uvR=vec2(uv.x+shift+ab,uv.y);" +
-      "vec2 uvG=vec2(uv.x+shift,uv.y);" +
-      "vec2 uvB=vec2(uv.x+shift-ab,uv.y);" +
-      "float scan=0.92+0.08*sin(uv.y*140.0-t*2.2);" +
-      "float flicker=0.92+0.08*hash(vec2(floor(t*12.0),1.0));" +
-      "float nR=hash(uvR*36.0+t*0.4);" +
-      "float nG=hash(uvG*36.0+t*0.4+7.0);" +
-      "float nB=hash(uvB*36.0+t*0.4+13.0);" +
-      "vec3 col=vec3(0.34*nR,0.01*nG,0.03*nB)*scan*flicker;" +
-      "float edge=smoothstep(0.0,0.3,uv.y)*smoothstep(1.0,0.65,uv.y);" +
-      "col*=edge;" +
-      "gl_FragColor=vec4(col,edge*0.16);" +
-      "}";
-
-    function compile(type, src) {
-      var sh = gl.createShader(type);
-      gl.shaderSource(sh, src);
-      gl.compileShader(sh);
-      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-        console.warn("[initCipherShader] shader error:", gl.getShaderInfoLog(sh));
-        gl.deleteShader(sh);
-        return null;
-      }
-      return sh;
-    }
-
-    var vs = compile(gl.VERTEX_SHADER, VERT);
-    var fs = compile(gl.FRAGMENT_SHADER, FRAG);
-    if (!vs || !fs) return;
-
-    var program = gl.createProgram();
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.warn("[initCipherShader] program link error:", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
-
-    // Triángulo único que cubre toda la pantalla — más barato que un quad de 2 triángulos.
-    var buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    var aPos = gl.getAttribLocation(program, "aPos");
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    var uTime = gl.getUniformLocation(program, "uTime");
-    var uResolution = gl.getUniformLocation(program, "uResolution");
-
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    var width = 0, height = 0;
-
-    function resize() {
-      var rect = section.getBoundingClientRect();
-      width = Math.max(1, Math.round(rect.width * dpr));
-      height = Math.max(1, Math.round(rect.height * dpr));
-      canvas.width = width;
-      canvas.height = height;
-      gl.viewport(0, 0, width, height);
-    }
-    resize();
-
-    var resizeTimer;
-    window.addEventListener("resize", function () {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(resize, 200);
-    }, { passive: true });
-
-    // Pausa el rAF fuera de viewport y con la pestaña oculta — no gasta batería
-    // en un efecto de fondo que nadie está mirando.
-    var running = false;
-    var rafId = null;
-    var startTime = performance.now();
-
-    function frame(now) {
-      if (!running) return;
-      gl.uniform1f(uTime, (now - startTime) / 1000);
-      gl.uniform2f(uResolution, width, height);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      rafId = window.requestAnimationFrame(frame);
-    }
-
-    function start() {
-      if (running) return;
-      running = true;
-      canvas.classList.add("is-active");
-      rafId = window.requestAnimationFrame(frame);
-    }
-
-    function stop() {
-      running = false;
-      if (rafId) window.cancelAnimationFrame(rafId);
-      rafId = null;
-    }
-
-    if ("IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) start(); else stop();
-        });
-      }, { threshold: 0.01 });
-      io.observe(section);
-    } else {
-      start();
-    }
-
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) stop();
-      else if (section.getBoundingClientRect().top < window.innerHeight) start();
-    });
-  }
-
-  /* ---------------------------------------------------------
-     Vídeo de bienvenida — placeholder si el archivo no existe
+     Vídeo — placeholder "Próximamente" si el archivo no existe
      --------------------------------------------------------- */
   function initVideo() {
     var frame = $("[data-video-frame]");
     var video = $("[data-video]");
     if (!frame || !video) return;
 
-    video.addEventListener("loadeddata", function () {
-      frame.classList.add("is-ready");
-    });
+    video.addEventListener("loadeddata", function () { frame.classList.add("is-ready"); });
+    video.addEventListener("error", function () { frame.classList.remove("is-ready"); }, true);
 
-    video.addEventListener("error", function () {
-      frame.classList.remove("is-ready");
-    }, true);
-
-    // si a los 2.5s no ha cargado nada, asumimos que el archivo aún no existe
     window.setTimeout(function () {
       if (video.readyState === 0) frame.classList.remove("is-ready");
     }, 2500);
   }
 
   /* ---------------------------------------------------------
-     Formulario de captura de email
+     Glitch sutil en el póster del evento bloqueado
      --------------------------------------------------------- */
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function initPosterGlitch() {
+    if (reduced) return;
+    var poster = $("[data-lock-poster]");
+    var card = $("[data-lock-card]");
+    if (!poster || !card) return;
 
-  function initCaptureForm() {
-    var form = $("[data-capture-form]");
+    window.setInterval(function () {
+      if (card.classList.contains("is-unlocked")) return;
+      poster.classList.remove("is-glitching");
+      // fuerza reflow para poder relanzar la animación
+      void poster.offsetWidth;
+      poster.classList.add("is-glitching");
+    }, 4200 + Math.random() * 2600);
+  }
+
+  /* ---------------------------------------------------------
+     Desbloqueo por código — el código nunca se guarda en claro,
+     solo se compara su hash SHA-256 (Web Crypto API).
+     --------------------------------------------------------- */
+
+  // sha256("MANZANA") — código de demostración. Ver comentario en index.html
+  // para generar el hash del código real sin exponerlo en el fuente.
+  var UNLOCK_HASH = "121261926c6a671bfc49145e472ccb1f04e15f8addacf59870aaef4560bc9d5a";
+
+  function sha256Hex(text) {
+    var enc = new TextEncoder().encode(text);
+    return window.crypto.subtle.digest("SHA-256", enc).then(function (buf) {
+      var bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    });
+  }
+
+  // Helper de consola para generar el hash de un código nuevo sin
+  // tener que escribirlo nunca en texto plano dentro del repositorio.
+  window.PECADO_HASH = function (code) {
+    return sha256Hex(String(code || "").trim().toUpperCase());
+  };
+
+  function initUnlock() {
+    var form = $("[data-unlock-form]");
     if (!form) return;
 
-    var input = $("#email", form);
-    var errorEl = $("[data-capture-error]", form);
-    var submitBtn = $(".capture-submit", form);
-    var successEl = $("[data-capture-success]");
+    var input = $("[data-unlock-input]", form);
+    var submitBtn = $(".unlock-submit", form);
+    var feedback = $("[data-unlock-feedback]");
+    var card = $("[data-lock-card]");
+    var sub = $("[data-lock-sub]");
+    var ticket = $("[data-ticket-link]");
 
-    function showError(message) {
-      errorEl.textContent = message;
-      errorEl.hidden = false;
-      input.setAttribute("aria-invalid", "true");
+    if (!window.crypto || !window.crypto.subtle) {
+      feedback.textContent = "Tu navegador no soporta esta comprobación.";
+      feedback.classList.add("is-visible");
+      submitBtn.disabled = true;
+      return;
     }
 
-    function clearError() {
-      errorEl.hidden = true;
-      input.removeAttribute("aria-invalid");
+    function setFeedback(text, success) {
+      feedback.textContent = text;
+      feedback.classList.add("is-visible");
+      feedback.classList.toggle("is-success", !!success);
     }
 
-    function showSuccess() {
-      form.hidden = true;
-      successEl.hidden = false;
-      successEl.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+    function unlock() {
+      card.classList.add("is-unlocked");
+      sub.textContent = "Acceso concedido";
+      setFeedback("Correcto. Bienvenido al pecado.", true);
+      ticket.hidden = false;
+      window.setTimeout(function () {
+        ticket.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+        ticket.focus({ preventScroll: true });
+      }, reduced ? 0 : 700);
     }
 
-    // Simula el envío. Sustituir por una llamada real a un servicio
-    // de email marketing (ver comentario extenso en index.html, sección 4).
-    function simulateSubmit(email) {
-      return new Promise(function (resolve) {
-        window.setTimeout(resolve, 700);
-      });
+    function reject() {
+      setFeedback("Ese no es. Sigue buscando.", false);
+      input.classList.remove("is-error");
+      void input.offsetWidth;
+      input.classList.add("is-error");
     }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      clearError();
-
-      var value = input.value.trim();
-      if (!EMAIL_RE.test(value)) {
-        showError("Introduce un email válido.");
-        input.focus();
-        return;
-      }
+      var value = input.value.trim().toUpperCase();
+      if (!value) return;
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "…";
-
-      simulateSubmit(value)
-        .then(showSuccess)
+      sha256Hex(value)
+        .then(function (hash) {
+          if (hash === UNLOCK_HASH) unlock();
+          else reject();
+        })
         .catch(function () {
-          showError("Algo ha fallado. Inténtalo de nuevo.");
+          setFeedback("Algo ha fallado. Inténtalo de nuevo.", false);
         })
         .finally(function () {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Entra";
         });
     });
 
-    input.addEventListener("input", clearError);
+    input.addEventListener("input", function () {
+      input.value = input.value.toUpperCase();
+      input.classList.remove("is-error");
+    });
 
     // Micro-interacción "magnética": el botón sigue un poco al cursor.
     // Solo en dispositivos con puntero fino (nunca en touch) y nunca gateado
     // por reduced-motion — es un hover funcional, no un efecto intrusivo.
-    // Se desactiva mientras se envía para no confundir (ver gotcha C.2).
+    // Se desactiva mientras se envía/deshabilitado para no confundir (gotcha C.2).
     var fineHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (fineHover && window.gsap) {
       submitBtn.addEventListener("mousemove", function (e) {
@@ -505,13 +317,12 @@
       try { gsap.registerPlugin(ScrollTrigger); } catch (e) { console.warn("[boot] ScrollTrigger", e); }
     }
 
+    safe(initGlassCrack, "initGlassCrack");
     safe(initHeroLogo, "initHeroLogo");
     safe(initReveals, "initReveals");
-    safe(initParallax, "initParallax");
-    safe(initCipher, "initCipher");
-    safe(initCipherShader, "initCipherShader");
     safe(initVideo, "initVideo");
-    safe(initCaptureForm, "initCaptureForm");
+    safe(initPosterGlitch, "initPosterGlitch");
+    safe(initUnlock, "initUnlock");
     safe(initFooterYear, "initFooterYear");
     document.documentElement.classList.add("is-ready");
   }
