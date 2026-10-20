@@ -6,13 +6,16 @@
 <title>EcoFesta · Festes a casa sense plats per rentar</title>
 <meta name="description" content="Organitzes l'aniversari, la comunió o el sopar de veïns? EcoFesta et porta vaixella, decoració i accessoris per a tots els convidats i s'ho emporta brut. Res a comprar, res a guardar, res a rentar.">
 <meta name="theme-color" content="#1F4D3A">
+<meta name="color-scheme" content="light dark">
 <meta property="og:title" content="EcoFesta · Tens plats per a 6. Vénen 25.">
-<meta property="og:description" content="Packs de vaixella, decoració i accessoris reutilitzables per a festes. T'ho portem, ho celebres i ho recollim brut.">
+<meta property="og:description" content="Vaixella, decoració i accessoris per a la teva festa. T'ho portem, ho celebres i ens ho emportem brut.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/hero.jpg">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="assets/img/hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {
@@ -21,6 +24,7 @@
   "name": "EcoFesta",
   "description": "Lloguer de material reutilitzable per a festes i petites celebracions: vaixella, decoració i accessoris, amb entrega, recollida i neteja.",
   "email": "hola@ecofesta.cat",
+  "image": "assets/img/hero.jpg",
   "priceRange": "€€"
 }
 </script>
@@ -40,13 +44,13 @@
         <path d="M16 4h8l-4 7z" fill="var(--mustard)"/>
         <path d="M26 5h8l-4 7z" fill="var(--coral)"/>
       </svg>
-      <span>Eco<em>Festa</em></span>
+      <span>EcoFesta</span>
     </a>
 
     <nav class="nav__links" id="menu" aria-label="Navegació principal">
+      <a href="#beneficis">Avantatges</a>
       <a href="#com-funciona">Com funciona</a>
       <a href="#packs">Packs</a>
-      <a href="#calculadora">Calcula</a>
       <a href="#preguntes">Preguntes</a>
       <a href="#reserva" class="btn btn--sm">Reserva</a>
     </nav>
@@ -56,53 +60,33 @@
     </button>
   </div>
 </header>
+<div class="nav-sentinel" id="navSentinel" aria-hidden="true"></div>
 
 <main id="contingut">
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="inici">
-  <svg class="bunting" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 18 Q300 70 600 30 T1200 22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
-    <g class="bunting__flags"></g>
-  </svg>
-
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="eyebrow">Per a qui organitza la festa a casa</p>
-      <h1>Tens plats per&nbsp;a&nbsp;6.<br><span class="hl">Vénen 25.</span></h1>
-      <p class="lead">Aniversaris, comunions, sopars de veïns: et portem vaixella de debò, decoració i accessoris per a tots els convidats, i ens ho emportem <strong>brut</strong>. Res a comprar, res a guardar i res a rentar a les dotze de la nit.</p>
+      <h1 class="hero__title">
+        <span class="line"><span>Tens plats per&nbsp;a&nbsp;6.</span></span>
+        <span class="line"><span class="hl">Vénen 25.</span></span>
+      </h1>
+      <p class="lead">Et portem vaixella, decoració i accessoris per a tothom. Després ens ho emportem brut.</p>
       <div class="hero__ctas">
-        <a href="#calculadora" class="btn">Troba el teu pack</a>
+        <a href="#calculadora" class="btn">Calcula la teva festa</a>
         <a href="#com-funciona" class="link-arrow">Com funciona <span aria-hidden="true">→</span></a>
       </div>
-      <ul class="hero__facts">
-        <li><strong>0</strong> plats per rentar</li>
-        <li><strong>0</strong> coses al calaix</li>
-        <li><strong>des de 2,76 €</strong> per convidat</li>
-      </ul>
     </div>
 
-    <div class="hero__art" aria-hidden="true">
-      <div class="table">
-        <div class="plate plate--big"><div class="plate__ring"></div><div class="plate__cake">
-          <span class="candle"></span><span class="candle"></span><span class="candle"></span>
-        </div></div>
-        <div class="plate plate--small"></div>
-        <div class="glass"><span class="glass__fill"></span></div>
-        <div class="cutlery"><span class="fork"></span><span class="knife"></span></div>
-        <div class="tag">
-          <span class="tag__k">Pack Mitjà</span>
-          <span class="tag__v">25 convidats</span>
-          <span class="tag__s">Torna brut ✓</span>
-        </div>
-        <span class="confetti c1"></span><span class="confetti c2"></span><span class="confetti c3"></span>
-        <span class="confetti c4"></span><span class="confetti c5"></span>
-      </div>
-    </div>
+    <figure class="hero__media">
+      <img src="assets/img/hero.jpg" width="1024" height="688" alt="Família celebrant un aniversari al jardí, amb plats de ceràmica, gots de vidre, tovallons de lli i banderetes de roba" fetchpriority="high">
+    </figure>
   </div>
 </section>
 
-<!-- ============ TICKER ============ -->
+<!-- ============ MARQUEE ============ -->
 <div class="ticker" aria-label="Tipus de celebracions">
   <div class="ticker__track">
     <span>Aniversaris</span><span>Batejos</span><span>Comunions</span><span>Sopars de veïns</span>
@@ -112,80 +96,174 @@
   </div>
 </div>
 
-<!-- ============ PUNT DE DOLOR ============ -->
-<section class="section pain">
+<!-- ============ HISTÒRIA DEL DOLOR (imatge fixa + passos) ============ -->
+<section class="story" aria-labelledby="storyTitle">
   <div class="wrap">
-    <header class="section__head reveal">
-      <p class="eyebrow">Et sona?</p>
-      <h2>La festa dura quatre hores. <em>Organitzar-la i recollir-la</em>, tot el cap de setmana.</h2>
-    </header>
+    <h2 id="storyTitle" class="story__title reveal">La festa dura quatre hores. <span class="muted">Organitzar-la i recollir-la, tot el cap de setmana.</span></h2>
+  </div>
 
-    <ul class="pain__list">
-      <li class="pain__item reveal">
-        <span class="pain__time">Dimecres</span>
-        <p>Comptes plats i en tens 8 que fan joc. Pots demanar-ne a la teva mare, a la veïna… o acabar comprant-ne de cartró.</p>
-      </li>
-      <li class="pain__item reveal">
-        <span class="pain__time">Divendres</span>
-        <p>Tres botigues, 40 gots, 3 garlandes i unes estovalles de plàstic. 60 € en coses que no tornaràs a fer servir.</p>
-      </li>
-      <li class="pain__item reveal">
-        <span class="pain__time">Dissabte, 23:40</span>
-        <p>Els convidats ja han marxat. Tu encara tens la pica plena i dues bosses d'escombraries a l'entrada.</p>
-      </li>
-      <li class="pain__item reveal">
-        <span class="pain__time">Diumenge</span>
-        <p>Les garlandes que han sobreviscut van al calaix «de festes», que ja no tanca. Fins l'any que ve.</p>
-      </li>
-    </ul>
+  <div class="wrap story__grid">
+    <div class="story__visual" aria-hidden="true">
+      <div class="story__frame">
+        <img src="assets/img/dimecres.jpg" width="896" height="1120" alt="" class="is-active" data-step="0" loading="lazy">
+        <img src="assets/img/divendres.jpg" width="896" height="1120" alt="" data-step="1" loading="lazy">
+        <img src="assets/img/dissabte.jpg" width="896" height="1120" alt="" data-step="2" loading="lazy">
+        <img src="assets/img/diumenge.jpg" width="896" height="1120" alt="" data-step="3" loading="lazy">
+      </div>
+      <div class="story__progress"><span id="storyBar"></span></div>
+    </div>
 
-    <div class="pain__answer reveal">
-      <p class="pain__kicker">Amb EcoFesta</p>
-      <p class="pain__big">Fas una reserva. Celebres. Deixes les caixes a la porta. <span>Ja està.</span></p>
+    <ol class="story__steps">
+      <li class="story__step is-active" data-step="0">
+        <img class="story__inline" src="assets/img/dimecres.jpg" width="896" height="1120" alt="Una dona compta els pocs plats que té a l'armari de la cuina" loading="lazy">
+        <p class="story__day">Dimecres</p>
+        <h3>Comptes plats i en tens vuit.</h3>
+        <p>Ni fan joc ni n'hi ha prou. Toca demanar-ne a la mare, a la veïna, o acabar comprant-ne de cartró.</p>
+      </li>
+      <li class="story__step" data-step="1">
+        <img class="story__inline" src="assets/img/divendres.jpg" width="896" height="1120" alt="Bosses plenes de plats de cartró, gots i coberts de plàstic damunt el marbre de la cuina" loading="lazy">
+        <p class="story__day">Divendres</p>
+        <h3>Tres botigues i el cotxe ple.</h3>
+        <p>Gots, plats, coberts, estovalles i globus de plàstic. Diners en coses que faràs servir quatre hores.</p>
+      </li>
+      <li class="story__step story__step--peak" data-step="2">
+        <img class="story__inline" src="assets/img/dissabte.jpg" width="896" height="1120" alt="Pica plena de plats bruts de nit i dues bosses d'escombraries plenes de gots a la porta" loading="lazy">
+        <p class="story__day">Dissabte, 23:40</p>
+        <h3>Els convidats ja han marxat. La pica, no.</h3>
+        <p>Una pila de plats per rentar i dues bosses d'escombraries a l'entrada. I demà t'has de llevar d'hora.</p>
+      </li>
+      <li class="story__step" data-step="3">
+        <img class="story__inline" src="assets/img/diumenge.jpg" width="896" height="1120" alt="Calaix ple de garlandes de paper arrugades, globus i espelmes que ja no tanca" loading="lazy">
+        <p class="story__day">Diumenge</p>
+        <h3>El calaix de festes ja no tanca.</h3>
+        <p>Hi guardes el que ha sobreviscut. L'any que ve, segurament, tornaràs a comprar-ho tot.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ GIR (zoom en fer scroll) ============ -->
+<section class="turn" aria-labelledby="turnTitle">
+  <div class="turn__sticky">
+    <figure class="turn__media">
+      <img src="assets/img/sofa.jpg" width="1168" height="880" alt="Família rient al sofà la nit després de la festa, amb les banderetes encara a la paret" loading="lazy">
+    </figure>
+    <div class="turn__copy">
+      <h2 id="turnTitle">Ara imagina el mateix dissabte, a les 23:40.</h2>
+      <p>Les caixes ja són a la porta. La pica és buida. Tu, al sofà.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ COM FUNCIONA ============ -->
-<section class="section steps" id="com-funciona">
-  <div class="wrap">
-    <header class="section__head reveal">
-      <p class="eyebrow">Com funciona</p>
-      <h2>Tu poses els convidats. Nosaltres, tota la resta.</h2>
-    </header>
+<!-- ============ BENEFICIS (scroll horitzontal) ============ -->
+<section class="benefits" id="beneficis" aria-labelledby="benefitsTitle">
+  <div class="benefits__pin">
+    <div class="benefits__head wrap">
+      <p class="eyebrow">El valor real</p>
+      <h2 id="benefitsTitle">El que canvia quan no ho has de fer tot tu.</h2>
+    </div>
 
-    <ol class="steps__list">
-      <li class="step reveal">
-        <span class="step__n">01</span>
+    <div class="benefits__track" id="benefitsTrack">
+      <article class="benefit">
+        <figure class="benefit__media"><img src="assets/img/rentat.jpg" width="1168" height="880" alt="Treballadora d'EcoFesta carregant plats en un rentaplats industrial" loading="lazy"></figure>
+        <div class="benefit__body">
+          <p class="benefit__big">0 plats</p>
+          <h3>Recuperes la nit i el diumenge.</h3>
+          <dl class="benefit__vs">
+            <div><dt>Sense EcoFesta</dt><dd>Una vetllada sencera fregant plats, gots i coberts de 25 persones.</dd></div>
+            <div><dt>Amb EcoFesta</dt><dd>Treus les restes, ho deixes a les caixes i el rentaplats industrial és el nostre.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="benefit benefit--solid">
+        <div class="benefit__body">
+          <p class="benefit__big">2,76 €</p>
+          <h3>Per convidat, amb vaixella de debò.</h3>
+          <dl class="benefit__vs">
+            <div><dt>Sense EcoFesta</dt><dd>Cada festa tornes a pagar plats, gots, estovalles i garlandes d'un sol ús.</dd></div>
+            <div><dt>Amb EcoFesta</dt><dd>Pack Mitjà per a 25 persones, 69 € per 48 hores. Després no has de guardar res.</dd></div>
+          </dl>
+          <a href="#calculadora" class="link-arrow">Calcula la teva festa <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+      <article class="benefit">
+        <figure class="benefit__media"><img src="assets/img/entrega.jpg" width="1168" height="880" alt="Repartidor d'EcoFesta entregant caixes amb vaixella a una mare a la porta de casa" loading="lazy"></figure>
+        <div class="benefit__body">
+          <p class="benefit__big">1 encàrrec</p>
+          <h3>Tot a la porta, comptat i a punt.</h3>
+          <dl class="benefit__vs">
+            <div><dt>Sense EcoFesta</dt><dd>Tres botigues, llistes, el cotxe ple i encara falten els coberts de postres.</dd></div>
+            <div><dt>Amb EcoFesta</dt><dd>Te'l portem a l'hora que diguis, amb peces de més per si arriba algú a última hora.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="benefit">
+        <figure class="benefit__media"><img src="assets/img/taula.jpg" width="1168" height="880" alt="Taula parada amb plats de gres, tovallons de lli verd, gerres de llimonada i flors" loading="lazy"></figure>
+        <div class="benefit__body">
+          <p class="benefit__big">Ceràmica i lli</p>
+          <h3>Una taula que fa goig a les fotos.</h3>
+          <dl class="benefit__vs">
+            <div><dt>Sense EcoFesta</dt><dd>Plats de cartró que es dobleguen i estovalles de plàstic que volen.</dd></div>
+            <div><dt>Amb EcoFesta</dt><dd>Plats de gres, gots de vidre i tovallons de lli. Sembla que t'hi hagis passat el dia.</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="benefit">
+        <figure class="benefit__media"><img src="assets/img/caixes.jpg" width="1168" height="880" alt="Tres caixes verdes amb plats i gots fets servir al costat de la porta, a punt per a la recollida" loading="lazy"></figure>
+        <div class="benefit__body">
+          <p class="benefit__big">0 bosses</p>
+          <h3>Res al calaix, res a les escombraries.</h3>
+          <dl class="benefit__vs">
+            <div><dt>Sense EcoFesta</dt><dd>Bosses plenes de plàstic i un calaix de festes que cada any és més gran.</dd></div>
+            <div><dt>Amb EcoFesta</dt><dd>Les caixes surten de casa l'endemà. Tot torna a servir per a la festa següent.</dd></div>
+          </dl>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COM FUNCIONA (línia de progrés) ============ -->
+<section class="steps" id="com-funciona" aria-labelledby="stepsTitle">
+  <div class="wrap steps__grid">
+    <h2 id="stepsTitle" class="steps__title reveal">Tu poses els convidats. Nosaltres, la resta.</h2>
+
+    <ol class="timeline" id="timeline">
+      <li class="timeline__line" aria-hidden="true"><span id="timelineFill"></span></li>
+      <li class="tl reveal">
+        <span class="tl__dot" aria-hidden="true"></span>
         <h3>Tria el pack</h3>
-        <p>Segons quants sereu i el tipus de festa. Afegeix-hi extres si vols: llums, garlandes, estovalles…</p>
+        <p>Segons quants sereu i el tipus de festa. Hi pots afegir llums, garlandes o estovalles.</p>
       </li>
-      <li class="step reveal">
-        <span class="step__n">02</span>
+      <li class="tl reveal">
+        <span class="tl__dot" aria-hidden="true"></span>
         <h3>T'ho portem</h3>
         <p>El dia abans o el mateix matí, en caixes reutilitzables i a l'hora que ens diguis.</p>
       </li>
-      <li class="step reveal">
-        <span class="step__n">03</span>
+      <li class="tl reveal">
+        <span class="tl__dot" aria-hidden="true"></span>
         <h3>Celebra</h3>
-        <p>Tens 48 hores. Fes servir-ho tot amb tranquil·litat: les petites rascades formen part de la vida del material.</p>
+        <p>Tens 48 hores. Si es trenca un plat, no passa res: hi ha marge.</p>
       </li>
-      <li class="step reveal">
-        <span class="step__n">04</span>
+      <li class="tl reveal">
+        <span class="tl__dot" aria-hidden="true"></span>
         <h3>Ho recollim brut</h3>
-        <p>Treus les restes de menjar, ho poses a les caixes i a dormir. L'endemà ho recollim i ho rentem nosaltres.</p>
+        <p>Treus les restes de menjar, ho poses a les caixes i a dormir. Rentar-ho és cosa nostra.</p>
       </li>
     </ol>
   </div>
 </section>
 
 <!-- ============ PACKS ============ -->
-<section class="section packs" id="packs">
+<section class="packs" id="packs" aria-labelledby="packsTitle">
   <div class="wrap">
-    <header class="section__head reveal">
-      <p class="eyebrow">Els packs</p>
-      <h2>Per a 12, 25 o 50 convidats. Tot en un sol encàrrec.</h2>
-      <p class="section__sub">Plats, gots, coberts, estovalles i decoració: tot el que hauries d'anar a comprar a tres botigues, ja comptat i a punt. Preus per a 48 h, IVA inclòs.</p>
+    <header class="packs__head reveal">
+      <h2 id="packsTitle">Per a 12, 25 o 50 convidats.</h2>
+      <p>Plats, gots, coberts, estovalles i decoració, ja comptats. Preus per a 48 h, IVA inclòs.</p>
     </header>
 
     <div class="tabs reveal" role="tablist" aria-label="Tipus de festa">
@@ -198,61 +276,16 @@
       <!-- generat per script.js -->
     </div>
 
-    <p class="packs__note reveal">Necessiteu més de 50 coberts? <a href="#reserva">Escriu-nos</a> i us preparem un pack a mida.</p>
-  </div>
-</section>
-
-<!-- ============ SERVEIS ============ -->
-<section class="section services">
-  <div class="wrap services__grid">
-    <div class="services__intro reveal">
-      <p class="eyebrow">Serveis</p>
-      <h2>Ni cotxe carregat, ni pica plena.</h2>
-      <p>Te'l portem a casa i te'l recollim. I la part que ningú vol fer, rentar-ho tot, també és cosa nostra.</p>
-    </div>
-    <ul class="services__list">
-      <li class="service reveal">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M4 30V14h24v16M28 20h9l7 7v3H28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="13" cy="33" r="4" fill="var(--paper)" stroke="currentColor" stroke-width="2.5"/><circle cx="36" cy="33" r="4" fill="var(--paper)" stroke="currentColor" stroke-width="2.5"/></svg>
-        <div>
-          <h3>Entrega i recollida</h3>
-          <p>Franja de 2 hores a escollir. Pugem a casa si cal.</p>
-        </div>
-        <span class="service__price">18 €</span>
-      </li>
-      <li class="service reveal">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20h28l-3 20H13z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="18" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="28" cy="8" r="2" fill="currentColor"/><circle cx="32" cy="14" r="3.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
-        <div>
-          <h3>Neteja i desinfecció</h3>
-          <p>Retorna-ho brut. Rentem a alta temperatura amb sabons ecològics.</p>
-        </div>
-        <span class="service__price">des de 8 €</span>
-      </li>
-      <li class="service reveal">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 10h36v28H6z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 18h36M16 10v-4M32 10v-4" stroke="currentColor" stroke-width="2.5"/><path d="M17 28l5 5 9-10" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div>
-          <h3>Recollida al magatzem</h3>
-          <p>Vine a buscar-ho tu mateix i estalvia't l'entrega.</p>
-        </div>
-        <span class="service__price">Gratis</span>
-      </li>
-      <li class="service reveal">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
-        <div>
-          <h3>Extres a la carta</h3>
-          <p>Garlandes de roba, llums, estovalles de lli i kit de pastís.</p>
-        </div>
-        <span class="service__price">des de 5 €</span>
-      </li>
-    </ul>
+    <p class="packs__note reveal">Més de 50 convidats? <a href="#reserva">Demana un pack a mida</a>. Entrega i recollida: 18 €. Neteja: des de 8 €.</p>
   </div>
 </section>
 
 <!-- ============ CALCULADORA ============ -->
-<section class="section calc" id="calculadora">
+<section class="calc" id="calculadora" aria-labelledby="calcTitle">
   <div class="wrap">
-    <header class="section__head reveal">
-      <p class="eyebrow">Calcula la teva festa</p>
-      <h2>Quants sereu? En deu segons saps què et costa.</h2>
+    <header class="calc__head reveal">
+      <p class="eyebrow">Calculadora</p>
+      <h2 id="calcTitle">Quants sereu? En deu segons saps què et costa.</h2>
     </header>
 
     <div class="calc__grid">
@@ -287,11 +320,9 @@
       </form>
 
       <aside class="ticket reveal" aria-live="polite">
-        <div class="ticket__top">
-          <p class="ticket__label">El teu pack recomanat</p>
-          <p class="ticket__pack" id="tPack">Pack Mitjà</p>
-          <p class="ticket__meta" id="tMeta">Fins a 25 convidats · Familiar</p>
-        </div>
+        <p class="ticket__label">El teu pack recomanat</p>
+        <p class="ticket__pack" id="tPack">Pack Mitjà</p>
+        <p class="ticket__meta" id="tMeta">Fins a 25 convidats</p>
         <ul class="ticket__lines" id="tLines"></ul>
         <div class="ticket__total">
           <span>Total estimat</span>
@@ -300,7 +331,7 @@
         <p class="ticket__per" id="tPer"></p>
         <div class="ticket__impact">
           <p><strong id="tPieces">0</strong> peces que no hauràs de comprar, rentar ni llençar</p>
-          <p class="ticket__small">≈ <span id="tKg">0</span> kg de residus evitats · estimació</p>
+          <p class="ticket__small">Uns <span id="tKg">0</span> kg de residus menys (estimació)</p>
         </div>
         <button class="btn btn--full" id="toBooking" type="button">Reserva aquesta festa</button>
       </aside>
@@ -308,39 +339,15 @@
   </div>
 </section>
 
-<!-- ============ RESULTAT ============ -->
-<section class="section impact">
-  <div class="wrap">
-    <p class="eyebrow reveal">El que t'estalvies</p>
-    <div class="impact__grid">
-      <div class="impact__item reveal">
-        <span class="impact__big">0</span>
-        <p>plats per rentar quan marxa l'últim convidat. Ho tornes brut.</p>
-      </div>
-      <div class="impact__item reveal">
-        <span class="impact__big">0</span>
-        <p>viatges a comprar gots, garlandes i estovalles que només faràs servir un cop.</p>
-      </div>
-      <div class="impact__item reveal">
-        <span class="impact__big">0</span>
-        <p>bosses de plàstic i cartró a les escombraries. I zero calaixos de festes que no tanquen.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ PREGUNTES ============ -->
-<section class="section faq" id="preguntes">
+<section class="faq" id="preguntes" aria-labelledby="faqTitle">
   <div class="wrap faq__grid">
-    <header class="section__head reveal">
-      <p class="eyebrow">Preguntes freqüents</p>
-      <h2>Tot el que vols saber abans de reservar.</h2>
-    </header>
+    <h2 id="faqTitle" class="reveal">Abans de reservar.</h2>
 
     <div class="faq__list">
       <details class="reveal">
         <summary>Amb quanta antelació he de reservar?</summary>
-        <p>Recomanem fer-ho com a mínim una setmana abans, sobretot en caps de setmana de primavera i estiu. Si és més urgent, escriu-nos i mirarem si tenim disponibilitat.</p>
+        <p>Recomanem una setmana, sobretot els caps de setmana de primavera i estiu. Si és més urgent, escriu-nos i mirarem si hi ha disponibilitat.</p>
       </details>
       <details class="reveal">
         <summary>I si a última hora venen més convidats?</summary>
@@ -348,58 +355,58 @@
       </details>
       <details class="reveal">
         <summary>Què passa si es trenca alguna cosa?</summary>
-        <p>Comptem que es pot trencar algun plat o got: per a cada pack hi ha un marge de dues peces sense cost. A partir d'aquí, només es cobra el preu de reposició de la peça.</p>
+        <p>Cada pack té un marge de dues peces trencades sense cost. A partir d'aquí, només es cobra el preu de reposició de la peça.</p>
       </details>
       <details class="reveal">
-        <summary>Com he de tornar el material si contracto la neteja?</summary>
-        <p>Retira les restes de menjar a les escombraries i torna-ho tot a les caixes. No cal esbandir-ho ni rentar-ho. Si no contractes la neteja, cal que ho tornis net i sec.</p>
+        <summary>Com ho he de tornar si contracto la neteja?</summary>
+        <p>Llença les restes de menjar i torna-ho tot a les caixes. No cal esbandir res. Sense neteja, cal tornar-ho net i sec.</p>
       </details>
       <details class="reveal">
         <summary>On feu entregues?</summary>
-        <p>Indica'ns el codi postal al formulari de reserva i et confirmarem la cobertura. Fora de zona, pots recollir el pack al magatzem sense cap cost.</p>
+        <p>Indica'ns el codi postal al formulari i et confirmarem la cobertura. Fora de zona, pots recollir el pack al magatzem sense cost.</p>
       </details>
       <details class="reveal">
         <summary>El material és segur per a infants?</summary>
-        <p>Els packs infantils porten vaixella de bambú i melamina lliure de BPA, irrompible i lleugera, i gots amb tapa i canyeta d'acer.</p>
-      </details>
-      <details class="reveal">
-        <summary>Puc combinar packs o fer-ne un a mida?</summary>
-        <p>És clar. Per a festes de més de 50 persones o necessitats especials, explica-ho al formulari i et farem un pressupost personalitzat.</p>
+        <p>Els packs infantils porten vaixella de bambú lliure de BPA, irrompible i lleugera, i gots amb tapa i canyeta d'acer.</p>
       </details>
     </div>
   </div>
 </section>
 
 <!-- ============ RESERVA ============ -->
-<section class="section booking" id="reserva">
+<section class="booking" id="reserva" aria-labelledby="bookingTitle">
   <div class="wrap booking__grid">
     <div class="booking__intro reveal">
-      <p class="eyebrow">Reserva</p>
-      <h2>Reserva ara i oblida't dels plats.</h2>
-      <p>Dues línies i ja està. Et responem en menys de 24 hores per confirmar la data i l'hora d'entrega. No pagues res fins que ho confirmem.</p>
-      <p class="booking__mail">També ens pots escriure a <a href="mailto:hola@ecofesta.cat">hola@ecofesta.cat</a></p>
+      <h2 id="bookingTitle">Reserva i oblida't dels plats.</h2>
+      <p>Et responem en menys de 24 hores per confirmar la data i l'hora d'entrega. No pagues res fins que ho confirmem.</p>
+      <figure class="booking__media"><img src="assets/img/caixes.jpg" width="1168" height="880" alt="" loading="lazy"></figure>
     </div>
 
     <form class="booking__form reveal" id="bookingForm" novalidate>
       <div class="field">
         <label for="fName">Nom</label>
         <input id="fName" name="name" type="text" autocomplete="name" required>
+        <p class="field__err">Escriu el teu nom.</p>
       </div>
       <div class="field">
         <label for="fEmail">Correu electrònic</label>
         <input id="fEmail" name="email" type="email" autocomplete="email" required>
+        <p class="field__err">Revisa el correu: ha de tenir el format nom@domini.cat.</p>
       </div>
       <div class="field field--half">
         <label for="fDate">Data de la festa</label>
         <input id="fDate" name="date" type="date" required>
+        <p class="field__err">Tria una data a partir de d'aquí dos dies.</p>
       </div>
       <div class="field field--half">
         <label for="fZip">Codi postal</label>
         <input id="fZip" name="zip" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" required>
+        <p class="field__err">Han de ser 5 xifres.</p>
       </div>
       <div class="field field--half">
         <label for="fGuests">Convidats</label>
         <input id="fGuests" name="guests" type="number" min="1" max="200" value="20" required>
+        <p class="field__err">Entre 1 i 200 convidats.</p>
       </div>
       <div class="field field--half">
         <label for="fPack">Pack</label>
@@ -412,7 +419,8 @@
       </div>
       <div class="field">
         <label for="fMsg">Alguna cosa més? <span class="opt">(opcional)</span></label>
-        <textarea id="fMsg" name="message" rows="4" placeholder="Tipus de festa, extres que vols, horari d'entrega…"></textarea>
+        <textarea id="fMsg" name="message" rows="4"></textarea>
+        <p class="field__help">Tipus de festa, extres que vols, horari d'entrega preferit.</p>
       </div>
       <button class="btn btn--full" type="submit">Envia la sol·licitud</button>
       <p class="form__status" id="formStatus" role="status"></p>
@@ -433,7 +441,7 @@
         <path d="M16 4h8l-4 7z" fill="var(--mustard)"/>
         <path d="M26 5h8l-4 7z" fill="var(--coral)"/>
       </svg>
-      <span>Eco<em>Festa</em></span>
+      <span>EcoFesta</span>
     </a>
     <p class="footer__claim">Tu celebres. Nosaltres rentem els plats.</p>
     <nav class="footer__links" aria-label="Peu de pàgina">
@@ -446,6 +454,8 @@
   </div>
 </footer>
 
+<script src="lib/gsap.min.js" defer></script>
+<script src="lib/ScrollTrigger.min.js" defer></script>
 <script src="script.js" defer></script>
 </body>
 </html>

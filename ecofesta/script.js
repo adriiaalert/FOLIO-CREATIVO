@@ -1,5 +1,5 @@
 /* =========================================================
-   EcoFesta — interaccions
+   EcoFesta - interaccions i animacions de scroll
    ========================================================= */
 (function () {
   'use strict';
@@ -65,15 +65,18 @@
   var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(s)); };
   var euro = function (n) { return n.toLocaleString('ca-ES') + ' €'; };
   var euro2 = function (n) { return n.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; };
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---------- Navegació ----------
   var nav = $('#nav');
   var menu = $('#menu');
   var toggle = $('#menuToggle');
 
-  window.addEventListener('scroll', function () {
-    nav.classList.toggle('is-scrolled', window.scrollY > 10);
-  }, { passive: true });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      nav.classList.toggle('is-scrolled', !entries[0].isIntersecting);
+    }).observe($('#navSentinel'));
+  }
 
   toggle.addEventListener('click', function () {
     var open = menu.classList.toggle('is-open');
@@ -87,25 +90,6 @@
     });
   });
 
-  // ---------- Banderetes del hero ----------
-  (function buildBunting() {
-    var svg = $('.bunting');
-    var path = $('path', svg);
-    var group = $('.bunting__flags', svg);
-    var colors = ['#E2603F', '#F2B544', '#1F4D3A', '#B9CFB0'];
-    var total = path.getTotalLength();
-    var count = 22;
-    var ns = 'http://www.w3.org/2000/svg';
-    for (var i = 1; i < count; i++) {
-      var p = path.getPointAtLength(total * i / count);
-      var flag = document.createElementNS(ns, 'path');
-      flag.setAttribute('d', 'M' + (p.x - 16) + ' ' + p.y + ' L' + (p.x + 16) + ' ' + p.y + ' L' + p.x + ' ' + (p.y + 36) + ' Z');
-      flag.setAttribute('fill', colors[i % colors.length]);
-      flag.style.animationDelay = (-i * 0.35) + 's';
-      group.appendChild(flag);
-    }
-  })();
-
   // ---------- Packs ----------
   var grid = $('#packsGrid');
 
@@ -116,11 +100,11 @@
         '<article class="pack' + (p.featured ? ' pack--featured' : '') + '">' +
           (p.featured ? '<span class="pack__badge">El més demanat</span>' : '') +
           '<h3 class="pack__name">' + p.name + '</h3>' +
-          '<p class="pack__guests">Fins a ' + p.max + ' convidats · ' + t.label + '</p>' +
+          '<p class="pack__guests">Fins a ' + p.max + ' convidats, ' + t.label.toLowerCase() + '</p>' +
           '<p class="pack__price">' + p.price + ' €<small>/ 48 h</small></p>' +
           '<p class="pack__per">' + euro2(p.price / p.max) + ' per convidat</p>' +
           '<ul>' + t.items(p.max).map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
-          '<a href="#reserva" class="btn" data-pick="' + p.id + '">Reserva el ' + p.name + '</a>' +
+          '<a href="#reserva" class="btn" data-pick="' + p.id + '">Tria aquest pack</a>' +
         '</article>';
     }).join('');
   }
@@ -195,9 +179,9 @@
     var pieces = n * PIECES_PER_GUEST;
 
     $('#tPack').textContent = pack.name;
-    $('#tMeta').textContent = 'Fins a ' + pack.max + ' convidats · ' + TYPES[type].label;
+    $('#tMeta').textContent = 'Fins a ' + pack.max + ' convidats, ' + TYPES[type].label.toLowerCase();
     $('#tLines').innerHTML = lines.map(function (l) {
-      return '<li' + (l.v === 0 ? ' class="is-free"' : '') + '><span>' + l.k + '</span><span>' + (l.v === 0 ? 'Gratis' : euro(l.v)) + '</span></li>';
+      return '<li><span>' + l.k + '</span><span>' + (l.v === 0 ? 'Gratis' : euro(l.v)) + '</span></li>';
     }).join('');
     $('#tTotal').textContent = euro(total);
     $('#tPer').textContent = euro2(total / n) + ' per convidat';
@@ -223,31 +207,31 @@
     if (state.extras.length) notes.push('Extres: ' + state.extras.map(function (x) { return x.name.toLowerCase(); }).join(', ') + '.');
     notes.push('Total estimat: ' + euro(state.total) + '.');
     $('#fMsg').value = notes.join(' ');
-    $('#reserva').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(function () { $('#fName').focus({ preventScroll: true }); }, 600);
+    $('#reserva').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+    setTimeout(function () { $('#fName').focus({ preventScroll: true }); }, 700);
   });
 
   // ---------- Formulari de reserva ----------
   var form = $('#bookingForm');
   var status = $('#formStatus');
   var dateInput = $('#fDate');
-  var today = new Date();
-  today.setDate(today.getDate() + 2);
-  dateInput.min = today.toISOString().slice(0, 10);
+  var minDate = new Date();
+  minDate.setDate(minDate.getDate() + 2);
+  dateInput.min = minDate.toISOString().slice(0, 10);
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var fields = $$('input[required]', form);
     var firstBad = null;
-    fields.forEach(function (f) {
+    $$('input[required]', form).forEach(function (f) {
       var ok = f.checkValidity();
       f.closest('.field').classList.toggle('is-invalid', !ok);
+      f.setAttribute('aria-invalid', String(!ok));
       if (!ok && !firstBad) firstBad = f;
     });
     status.className = 'form__status';
     if (firstBad) {
       status.classList.add('is-err');
-      status.textContent = 'Revisa els camps marcats: falta alguna dada o no té el format correcte.';
+      status.textContent = 'Falten dades o n\'hi ha alguna amb un format incorrecte.';
       firstBad.focus();
       return;
     }
@@ -264,18 +248,21 @@
       '',
       $('#fMsg').value.trim()
     ].join('\n');
-    window.location.href = 'mailto:hola@ecofesta.cat?subject=' + encodeURIComponent('Reserva EcoFesta · ' + date) + '&body=' + encodeURIComponent(body);
+    window.location.href = 'mailto:hola@ecofesta.cat?subject=' + encodeURIComponent('Reserva EcoFesta, ' + date) + '&body=' + encodeURIComponent(body);
     status.classList.add('is-ok');
     status.textContent = 'Gràcies, ' + name + '! S\'ha obert el teu correu amb la sol·licitud per al ' + date + '. Envia-la i et confirmarem la disponibilitat en menys de 24 hores.';
   });
 
   $$('input', form).forEach(function (f) {
-    f.addEventListener('input', function () { f.closest('.field').classList.remove('is-invalid'); });
+    f.addEventListener('input', function () {
+      f.closest('.field').classList.remove('is-invalid');
+      f.removeAttribute('aria-invalid');
+    });
   });
 
-  // ---------- Revelat en fer scroll ----------
+  // ---------- Revelat en entrar a la pantalla ----------
   var reveals = $$('.reveal');
-  if ('IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window && !reduceMotion) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
@@ -289,5 +276,100 @@
     reveals.forEach(function (el) { el.classList.add('is-in'); });
   }
 
+  // ---------- Història: la foto fixa canvia amb cada dia ----------
+  var storyImgs = $$('.story__frame img');
+  var storySteps = $$('.story__step');
+  var storyBar = $('#storyBar');
+  if ('IntersectionObserver' in window) {
+    var storyIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var i = en.target.dataset.step;
+        storySteps.forEach(function (s) { s.classList.toggle('is-active', s === en.target); });
+        storyImgs.forEach(function (img) { img.classList.toggle('is-active', img.dataset.step === i); });
+        storyBar.style.width = ((+i + 1) / storySteps.length * 100) + '%';
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    storySteps.forEach(function (s) { storyIo.observe(s); });
+  }
+
   $('#year').textContent = new Date().getFullYear();
+
+  // ---------- Animacions de scroll amb GSAP ----------
+  var turn = $('.turn');
+  var turnMedia = $('.turn__media');
+  var turnImg = $('.turn__media img');
+
+  function showTurnStatic() {
+    turnMedia.style.clipPath = 'none';
+    turnImg.style.transform = 'none';
+    turn.style.setProperty('--shade', 1);
+    turn.style.setProperty('--copy', 1);
+  }
+
+  document.documentElement.classList.add('is-loaded');
+
+  if (!window.gsap || !window.ScrollTrigger || reduceMotion) {
+    showTurnStatic();
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  var clamp01 = function (v) { return Math.min(1, Math.max(0, v)); };
+
+  // Entrada del titular: cada línia puja des de sota la seva màscara
+  gsap.from('.hero__title .line > span', { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: 0.12, delay: 0.1 });
+  gsap.from('.hero .lead, .hero__ctas, .hero .eyebrow', { opacity: 0, y: 18, duration: 0.9, ease: 'expo.out', stagger: 0.08, delay: 0.35 });
+  gsap.from('.hero__media', { opacity: 0, scale: 0.96, duration: 1.2, ease: 'expo.out', delay: 0.2 });
+
+  var mm = gsap.matchMedia();
+
+  mm.add('(min-width: 768px)', function () {
+    // Paral·laxi suau de la foto del hero
+    gsap.to('.hero__media img', {
+      yPercent: -12, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    // Gir: la foto del sofà s'obre fins a omplir la pantalla i apareix el text
+    ScrollTrigger.create({
+      trigger: turn, start: 'top top', end: 'bottom bottom', scrub: true,
+      onUpdate: function (self) {
+        var p = self.progress;
+        var open = clamp01(p / 0.55);
+        var e = 1 - Math.pow(1 - open, 3);
+        var y = 18 * (1 - e), x = 22 * (1 - e), r = 28 * (1 - e);
+        turnMedia.style.clipPath = 'inset(' + y + '% ' + x + '% round ' + r + 'px)';
+        turnImg.style.transform = 'scale(' + (1.15 - 0.15 * e) + ')';
+        turn.style.setProperty('--shade', clamp01((p - 0.35) / 0.3));
+        turn.style.setProperty('--copy', clamp01((p - 0.5) / 0.25));
+      }
+    });
+
+    // Beneficis: el scroll vertical desplaça les targetes en horitzontal
+    var track = $('#benefitsTrack');
+    var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
+    gsap.to(track, {
+      x: function () { return -distance(); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.benefits', start: 'top top',
+        end: function () { return '+=' + distance(); },
+        pin: true, scrub: 1, invalidateOnRefresh: true
+      }
+    });
+
+    // Com funciona: la línia es dibuixa a mesura que avances
+    gsap.to('#timelineFill', {
+      scaleY: 1, ease: 'none',
+      scrollTrigger: { trigger: '#timeline', start: 'top 60%', end: 'bottom 60%', scrub: true }
+    });
+  });
+
+  mm.add('(max-width: 767px)', function () {
+    showTurnStatic();
+    gsap.set('#timelineFill', { scaleY: 1 });
+  });
+
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
