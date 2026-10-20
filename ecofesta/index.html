@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoFesta · Lloguer de material reutilitzable per a festes</title>
+<meta name="description" content="EcoFesta lloga packs de vaixella, decoració i accessoris reutilitzables per a festes i petites celebracions. Entrega, recollida i neteja incloses perquè tu només hagis de celebrar.">
+<meta name="theme-color" content="#1F4D3A">
+<meta property="og:title" content="EcoFesta · Celebra-ho tot, no llencis res">
+<meta property="og:description" content="Packs de vaixella, decoració i accessoris reutilitzables per a festes. T'ho portem, ho celebres i ho recollim brut.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "EcoFesta",
+  "description": "Lloguer de material reutilitzable per a festes i petites celebracions: vaixella, decoració i accessoris, amb entrega, recollida i neteja.",
+  "email": "hola@ecofesta.cat",
+  "priceRange": "€€"
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#contingut">Salta al contingut</a>
+
+<!-- ============ CAPÇALERA ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a href="#inici" class="logo" aria-label="EcoFesta, inici">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="22" r="14" fill="currentColor" opacity=".14"/>
+        <circle cx="20" cy="22" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+        <path d="M6 5h8l-4 7z" fill="var(--coral)"/>
+        <path d="M16 4h8l-4 7z" fill="var(--mustard)"/>
+        <path d="M26 5h8l-4 7z" fill="var(--coral)"/>
+      </svg>
+      <span>Eco<em>Festa</em></span>
+    </a>
+
+    <nav class="nav__links" id="menu" aria-label="Navegació principal">
+      <a href="#com-funciona">Com funciona</a>
+      <a href="#packs">Packs</a>
+      <a href="#calculadora">Calcula</a>
+      <a href="#preguntes">Preguntes</a>
+      <a href="#reserva" class="btn btn--sm">Reserva</a>
+    </nav>
+
+    <button class="nav__toggle" id="menuToggle" aria-expanded="false" aria-controls="menu" aria-label="Obre el menú">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="contingut">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="inici">
+  <svg class="bunting" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 18 Q300 70 600 30 T1200 22" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".5"/>
+    <g class="bunting__flags"></g>
+  </svg>
+
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Lloguer de material per a festes</p>
+      <h1>Celebra-ho tot.<br><span class="hl">No llencis</span> res.</h1>
+      <p class="lead">Vaixella de debò, decoració bonica i tots els accessoris per a la teva festa, en un sol pack. Te'l portem a casa, el fas servir i te'l recollim <strong>brut</strong>: la neteja és cosa nostra.</p>
+      <div class="hero__ctas">
+        <a href="#calculadora" class="btn">Troba el teu pack</a>
+        <a href="#com-funciona" class="link-arrow">Com funciona <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="hero__facts">
+        <li><strong>0</strong> plats de plàstic</li>
+        <li><strong>4–50</strong> convidats</li>
+        <li><strong>48 h</strong> de lloguer</li>
+      </ul>
+    </div>
+
+    <div class="hero__art" aria-hidden="true">
+      <div class="table">
+        <div class="plate plate--big"><div class="plate__ring"></div><div class="plate__cake">
+          <span class="candle"></span><span class="candle"></span><span class="candle"></span>
+        </div></div>
+        <div class="plate plate--small"></div>
+        <div class="glass"><span class="glass__fill"></span></div>
+        <div class="cutlery"><span class="fork"></span><span class="knife"></span></div>
+        <div class="tag">
+          <span class="tag__k">Pack Mitjà</span>
+          <span class="tag__v">25 convidats</span>
+          <span class="tag__s">Torna brut ✓</span>
+        </div>
+        <span class="confetti c1"></span><span class="confetti c2"></span><span class="confetti c3"></span>
+        <span class="confetti c4"></span><span class="confetti c5"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-label="Tipus de celebracions">
+  <div class="ticker__track">
+    <span>Aniversaris</span><span>Batejos</span><span>Comunions</span><span>Sopars de veïns</span>
+    <span>Festes infantils</span><span>Revetlles</span><span>Berenars al jardí</span><span>Casaments petits</span>
+    <span aria-hidden="true">Aniversaris</span><span aria-hidden="true">Batejos</span><span aria-hidden="true">Comunions</span><span aria-hidden="true">Sopars de veïns</span>
+    <span aria-hidden="true">Festes infantils</span><span aria-hidden="true">Revetlles</span><span aria-hidden="true">Berenars al jardí</span><span aria-hidden="true">Casaments petits</span>
+  </div>
+</div>
+
+<!-- ============ PROBLEMA / IDEA ============ -->
+<section class="section idea">
+  <div class="wrap idea__grid">
+    <h2 class="reveal">Una festa de quatre hores no hauria de deixar <em>una bossa d'escombraries</em> de records.</h2>
+    <div class="idea__text reveal">
+      <p>Plats de cartró, gots de plàstic, garlandes que es trenquen en despenjar-les… Comprar material per fer-lo servir una sola vegada és car, ocupa lloc i acaba al contenidor.</p>
+      <p>A EcoFesta pensem com una biblioteca: el material és de tots i passa de festa en festa. Tu només reserves, celebres i ens ho tornes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COM FUNCIONA ============ -->
+<section class="section steps" id="com-funciona">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Com funciona</p>
+      <h2>Quatre passos i cap pila de plats per rentar.</h2>
+    </header>
+
+    <ol class="steps__list">
+      <li class="step reveal">
+        <span class="step__n">01</span>
+        <h3>Tria el pack</h3>
+        <p>Segons quants sereu i el tipus de festa. Afegeix-hi extres si vols: llums, garlandes, estovalles…</p>
+      </li>
+      <li class="step reveal">
+        <span class="step__n">02</span>
+        <h3>T'ho portem</h3>
+        <p>El dia abans o el mateix matí, en caixes reutilitzables i a l'hora que ens diguis.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step__n">03</span>
+        <h3>Celebra</h3>
+        <p>Tens 48 hores. Fes servir-ho tot amb tranquil·litat: les petites rascades formen part de la vida del material.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step__n">04</span>
+        <h3>Ho recollim brut</h3>
+        <p>Només cal treure les restes de menjar i tornar-ho a les caixes. Nosaltres ho rentem i ho desinfectem.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PACKS ============ -->
+<section class="section packs" id="packs">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Els packs</p>
+      <h2>Un pack per a cada mida de festa.</h2>
+      <p class="section__sub">Tria el tipus de celebració i mira què inclou cada pack. Preus per a 48 h de lloguer, IVA inclòs.</p>
+    </header>
+
+    <div class="tabs reveal" role="tablist" aria-label="Tipus de festa">
+      <button role="tab" class="tab is-active" aria-selected="true" data-type="familiar">Familiar</button>
+      <button role="tab" class="tab" aria-selected="false" data-type="infantil">Infantil</button>
+      <button role="tab" class="tab" aria-selected="false" data-type="jardi">Jardí i exterior</button>
+    </div>
+
+    <div class="packs__grid" id="packsGrid">
+      <!-- generat per script.js -->
+    </div>
+
+    <p class="packs__note reveal">Necessiteu més de 50 coberts? <a href="#reserva">Escriu-nos</a> i us preparem un pack a mida.</p>
+  </div>
+</section>
+
+<!-- ============ SERVEIS ============ -->
+<section class="section services">
+  <div class="wrap services__grid">
+    <div class="services__intro reveal">
+      <p class="eyebrow">Serveis</p>
+      <h2>Tu celebres. La logística, per a nosaltres.</h2>
+      <p>Pots recollir el pack al nostre magatzem o que te'l portem. I si no vols rentar res, tampoc cal.</p>
+    </div>
+    <ul class="services__list">
+      <li class="service reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M4 30V14h24v16M28 20h9l7 7v3H28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="13" cy="33" r="4" fill="var(--paper)" stroke="currentColor" stroke-width="2.5"/><circle cx="36" cy="33" r="4" fill="var(--paper)" stroke="currentColor" stroke-width="2.5"/></svg>
+        <div>
+          <h3>Entrega i recollida</h3>
+          <p>Franja de 2 hores a escollir. Pugem a casa si cal.</p>
+        </div>
+        <span class="service__price">18 €</span>
+      </li>
+      <li class="service reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20h28l-3 20H13z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="18" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="28" cy="8" r="2" fill="currentColor"/><circle cx="32" cy="14" r="3.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
+        <div>
+          <h3>Neteja i desinfecció</h3>
+          <p>Retorna-ho brut. Rentem a alta temperatura amb sabons ecològics.</p>
+        </div>
+        <span class="service__price">des de 8 €</span>
+      </li>
+      <li class="service reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 10h36v28H6z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M6 18h36M16 10v-4M32 10v-4" stroke="currentColor" stroke-width="2.5"/><path d="M17 28l5 5 9-10" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <h3>Recollida al magatzem</h3>
+          <p>Vine a buscar-ho tu mateix i estalvia't l'entrega.</p>
+        </div>
+        <span class="service__price">Gratis</span>
+      </li>
+      <li class="service reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <div>
+          <h3>Extres a la carta</h3>
+          <p>Garlandes de roba, llums, estovalles de lli i kit de pastís.</p>
+        </div>
+        <span class="service__price">des de 5 €</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CALCULADORA ============ -->
+<section class="section calc" id="calculadora">
+  <div class="wrap">
+    <header class="section__head reveal">
+      <p class="eyebrow">Calcula la teva festa</p>
+      <h2>Quants sereu? Et diem quin pack et va bé.</h2>
+    </header>
+
+    <div class="calc__grid">
+      <form class="calc__form reveal" id="calcForm" onsubmit="return false">
+        <fieldset>
+          <legend>Nombre de convidats</legend>
+          <div class="range">
+            <input type="range" id="guests" min="4" max="50" value="20" step="1" aria-describedby="guestsOut">
+            <output id="guestsOut" for="guests">20</output>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Tipus de festa</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="type" value="familiar" checked><span>Familiar</span></label>
+            <label class="chip"><input type="radio" name="type" value="infantil"><span>Infantil</span></label>
+            <label class="chip"><input type="radio" name="type" value="jardi"><span>Jardí</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Serveis</legend>
+          <label class="switch"><input type="checkbox" id="delivery" checked><span class="switch__ui"></span>Entrega i recollida a domicili</label>
+          <label class="switch"><input type="checkbox" id="cleaning" checked><span class="switch__ui"></span>Neteja inclosa (ho tornes brut)</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Extres</legend>
+          <div class="extras" id="extras"><!-- generat per script.js --></div>
+        </fieldset>
+      </form>
+
+      <aside class="ticket reveal" aria-live="polite">
+        <div class="ticket__top">
+          <p class="ticket__label">El teu pack recomanat</p>
+          <p class="ticket__pack" id="tPack">Pack Mitjà</p>
+          <p class="ticket__meta" id="tMeta">Fins a 25 convidats · Familiar</p>
+        </div>
+        <ul class="ticket__lines" id="tLines"></ul>
+        <div class="ticket__total">
+          <span>Total estimat</span>
+          <strong id="tTotal">0 €</strong>
+        </div>
+        <div class="ticket__impact">
+          <p><strong id="tPieces">0</strong> peces d'un sol ús que no acabaran a les escombraries</p>
+          <p class="ticket__small">≈ <span id="tKg">0</span> kg de residus evitats · estimació</p>
+        </div>
+        <button class="btn btn--full" id="toBooking" type="button">Reserva aquesta festa</button>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACTE ============ -->
+<section class="section impact">
+  <div class="wrap">
+    <p class="eyebrow reveal">Per què reutilitzar</p>
+    <div class="impact__grid">
+      <div class="impact__item reveal">
+        <span class="impact__big">1</span>
+        <p>Un plat de ceràmica es pot fer servir centenars de vegades. Un de cartró, una.</p>
+      </div>
+      <div class="impact__item reveal">
+        <span class="impact__big">7</span>
+        <p>peces d'un sol ús de mitjana per convidat en una festa: plats, got, coberts i tovalló.</p>
+      </div>
+      <div class="impact__item reveal">
+        <span class="impact__big">0 m²</span>
+        <p>d'armari ocupat amb material que només treus un cop l'any.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREGUNTES ============ -->
+<section class="section faq" id="preguntes">
+  <div class="wrap faq__grid">
+    <header class="section__head reveal">
+      <p class="eyebrow">Preguntes freqüents</p>
+      <h2>Tot el que vols saber abans de reservar.</h2>
+    </header>
+
+    <div class="faq__list">
+      <details class="reveal">
+        <summary>Amb quanta antelació he de reservar?</summary>
+        <p>Recomanem fer-ho com a mínim una setmana abans, sobretot en caps de setmana de primavera i estiu. Si és més urgent, escriu-nos i mirarem si tenim disponibilitat.</p>
+      </details>
+      <details class="reveal">
+        <summary>Què passa si es trenca alguna cosa?</summary>
+        <p>Comptem que es pot trencar algun plat o got: per a cada pack hi ha un marge de dues peces sense cost. A partir d'aquí, només es cobra el preu de reposició de la peça.</p>
+      </details>
+      <details class="reveal">
+        <summary>Com he de tornar el material si contracto la neteja?</summary>
+        <p>Retira les restes de menjar a les escombraries i torna-ho tot a les caixes. No cal esbandir-ho ni rentar-ho. Si no contractes la neteja, cal que ho tornis net i sec.</p>
+      </details>
+      <details class="reveal">
+        <summary>On feu entregues?</summary>
+        <p>Indica'ns el codi postal al formulari de reserva i et confirmarem la cobertura. Fora de zona, pots recollir el pack al magatzem sense cap cost.</p>
+      </details>
+      <details class="reveal">
+        <summary>El material és segur per a infants?</summary>
+        <p>Els packs infantils porten vaixella de bambú i melamina lliure de BPA, irrompible i lleugera, i gots amb tapa i canyeta d'acer.</p>
+      </details>
+      <details class="reveal">
+        <summary>Puc combinar packs o fer-ne un a mida?</summary>
+        <p>És clar. Per a festes de més de 50 persones o necessitats especials, explica-ho al formulari i et farem un pressupost personalitzat.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVA ============ -->
+<section class="section booking" id="reserva">
+  <div class="wrap booking__grid">
+    <div class="booking__intro reveal">
+      <p class="eyebrow">Reserva</p>
+      <h2>Demana la teva data.</h2>
+      <p>Omple el formulari i et respondrem en menys de 24 hores per confirmar la disponibilitat i la franja d'entrega. No pagues res fins que ho confirmem.</p>
+      <p class="booking__mail">També ens pots escriure a <a href="mailto:hola@ecofesta.cat">hola@ecofesta.cat</a></p>
+    </div>
+
+    <form class="booking__form reveal" id="bookingForm" novalidate>
+      <div class="field">
+        <label for="fName">Nom</label>
+        <input id="fName" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="fEmail">Correu electrònic</label>
+        <input id="fEmail" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field field--half">
+        <label for="fDate">Data de la festa</label>
+        <input id="fDate" name="date" type="date" required>
+      </div>
+      <div class="field field--half">
+        <label for="fZip">Codi postal</label>
+        <input id="fZip" name="zip" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" required>
+      </div>
+      <div class="field field--half">
+        <label for="fGuests">Convidats</label>
+        <input id="fGuests" name="guests" type="number" min="1" max="200" value="20" required>
+      </div>
+      <div class="field field--half">
+        <label for="fPack">Pack</label>
+        <select id="fPack" name="pack">
+          <option value="petit">Pack Petit (fins a 12)</option>
+          <option value="mitja" selected>Pack Mitjà (fins a 25)</option>
+          <option value="gran">Pack Gran (fins a 50)</option>
+          <option value="mida">A mida</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fMsg">Alguna cosa més? <span class="opt">(opcional)</span></label>
+        <textarea id="fMsg" name="message" rows="4" placeholder="Tipus de festa, extres que vols, horari d'entrega…"></textarea>
+      </div>
+      <button class="btn btn--full" type="submit">Envia la sol·licitud</button>
+      <p class="form__status" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ PEU ============ -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <a href="#inici" class="logo logo--light">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="22" r="14" fill="currentColor" opacity=".14"/>
+        <circle cx="20" cy="22" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+        <path d="M6 5h8l-4 7z" fill="var(--coral)"/>
+        <path d="M16 4h8l-4 7z" fill="var(--mustard)"/>
+        <path d="M26 5h8l-4 7z" fill="var(--coral)"/>
+      </svg>
+      <span>Eco<em>Festa</em></span>
+    </a>
+    <p class="footer__claim">Material de festa que passa de mà en mà.</p>
+    <nav class="footer__links" aria-label="Peu de pàgina">
+      <a href="#com-funciona">Com funciona</a>
+      <a href="#packs">Packs</a>
+      <a href="#preguntes">Preguntes</a>
+      <a href="mailto:hola@ecofesta.cat">hola@ecofesta.cat</a>
+    </nav>
+    <p class="footer__legal">© <span id="year">2026</span> EcoFesta</p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
