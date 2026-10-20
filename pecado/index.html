@@ -21,8 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link rel="preload" as="image" href="assets/logo-pecado.svg" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20260921">
+<link rel="stylesheet" href="styles.css?v=20261016">
 </head>
 <body>
 
@@ -36,8 +35,80 @@
      ============================================================ -->
 <header class="hero" id="inicio">
   <div class="hero-content">
-    <img class="hero-mark" src="assets/logo-pecado.svg" alt="" width="150" height="175">
-    <h1 class="hero-title">P&nbsp;E&nbsp;C&nbsp;A&nbsp;D&nbsp;O</h1>
+    <!--
+      SVG inline (no <img>) a propósito: la serpiente se anima trazo a trazo con
+      GSAP (stroke-dashoffset) en script.js → initHeroLogo(). Necesita acceso
+      directo a los <path> del DOM, algo que un <img src="..."> no permite.
+      Si GSAP no carga, el CSS de abajo la deja completamente visible y estática.
+    -->
+    <svg class="hero-mark" data-hero-mark viewBox="0 0 240 280" width="150" height="175" role="img" aria-labelledby="pecadoLogoTitle" focusable="false">
+      <title id="pecadoLogoTitle">Pecado — manzana de cristal con serpiente</title>
+      <defs>
+        <radialGradient id="appleGlass" cx="38%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#e6273f" stop-opacity="0.95"/>
+          <stop offset="35%" stop-color="#a3101f" stop-opacity="0.95"/>
+          <stop offset="75%" stop-color="#4a0510" stop-opacity="0.98"/>
+          <stop offset="100%" stop-color="#12030a" stop-opacity="1"/>
+        </radialGradient>
+        <linearGradient id="snakeBody" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1a0306"/>
+          <stop offset="50%" stop-color="#050101"/>
+          <stop offset="100%" stop-color="#1a0306"/>
+        </linearGradient>
+        <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!--
+        Sin <rect> de fondo a propósito (el logo-pecado.svg original sí lo tenía):
+        aquí el hero ya está sobre negro + resplandor ambiental, y un rect opaco
+        #000 se veía como una caja recortada sobre el glow. La "mordida" (el
+        círculo negro) sigue funcionando igual porque el fondo real detrás
+        (--ink) es prácticamente el mismo negro puro.
+      -->
+
+      <path class="hero-mark__stem" d="M120,72 C126,56 134,44 149,28" fill="none" stroke="#6b0f1a" stroke-width="6" stroke-linecap="round"/>
+
+      <path class="hero-mark__leaf" d="M120,68 C108,48 90,34 72,38 C85,56 98,68 118,73 Z" fill="#4a0512" stroke="#7a1424" stroke-width="1.5"/>
+
+      <path class="hero-mark__apple" d="M120,70 C90,40 40,55 30,110 C22,155 45,205 85,225 C100,233 108,238 120,250
+               C132,238 140,233 155,225 C195,205 218,155 210,110 C200,55 150,40 120,70 Z"
+            fill="url(#appleGlass)" filter="url(#softGlow)"/>
+
+      <ellipse class="hero-mark__reflection" cx="82" cy="105" rx="20" ry="34" fill="#ffffff" opacity="0.10" transform="rotate(-18 82 105)"/>
+
+      <!-- serpiente: dos trazos superpuestos que se dibujan a la vez con stroke-dashoffset -->
+      <path class="hero-mark__snake-body" data-snake-path
+            d="M52,150 C36,190 68,228 110,216 C150,204 132,168 96,174 C70,178 58,154 80,138
+               C112,116 152,138 162,175 C170,204 196,196 197,164"
+            fill="none" stroke="url(#snakeBody)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="hero-mark__snake-line" data-snake-path
+            d="M52,150 C36,190 68,228 110,216 C150,204 132,168 96,174 C70,178 58,154 80,138
+               C112,116 152,138 162,175 C170,204 196,196 197,164"
+            fill="none" stroke="#c41e3a" stroke-width="1.4" stroke-linecap="round" opacity="0.28"/>
+
+      <g class="hero-mark__snake-head">
+        <ellipse cx="200" cy="160" rx="10" ry="7" fill="#0a0202" transform="rotate(35 200 160)"/>
+        <circle cx="203" cy="156" r="1.4" fill="#e8c7c7"/>
+        <path d="M208,163 L216,169" stroke="#8b0000" stroke-width="1.2" stroke-linecap="round"/>
+      </g>
+
+      <!-- mordida: se revela al final, como si acabara de suceder -->
+      <circle class="hero-mark__bite" cx="178" cy="96" r="34" fill="#0b0807"/>
+    </svg>
+    <h1 class="hero-title" aria-label="PECADO">
+      <span class="hero-title__letter" aria-hidden="true">P</span>
+      <span class="hero-title__letter" aria-hidden="true">E</span>
+      <span class="hero-title__letter" aria-hidden="true">C</span>
+      <span class="hero-title__letter" aria-hidden="true">A</span>
+      <span class="hero-title__letter" aria-hidden="true">D</span>
+      <span class="hero-title__letter" aria-hidden="true">O</span>
+    </h1>
     <p class="hero-tagline">Una nueva forma de vivir el tardeo.</p>
   </div>
 
@@ -176,7 +247,10 @@
   <p class="footer-fine">&copy; <span data-year>2026</span> PECADO</p>
 </footer>
 
-<script defer src="glass-crack-bg.js?v=20260921"></script>
-<script defer src="script.js?v=20260921"></script>
+<!-- libs primero, en orden — defer garantiza que se ejecutan tras el parseo del HTML y en orden de aparición -->
+<script defer src="lib/gsap.min.js"></script>
+<script defer src="lib/ScrollTrigger.min.js"></script>
+<script defer src="glass-crack-bg.js?v=20261016"></script>
+<script defer src="script.js?v=20261016"></script>
 </body>
 </html>
