@@ -64,6 +64,7 @@
   var $ = function (s, ctx) { return (ctx || document).querySelector(s); };
   var $$ = function (s, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(s)); };
   var euro = function (n) { return n.toLocaleString('ca-ES') + ' €'; };
+  var euro2 = function (n) { return n.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'; };
 
   // ---------- Navegació ----------
   var nav = $('#nav');
@@ -117,6 +118,7 @@
           '<h3 class="pack__name">' + p.name + '</h3>' +
           '<p class="pack__guests">Fins a ' + p.max + ' convidats · ' + t.label + '</p>' +
           '<p class="pack__price">' + p.price + ' €<small>/ 48 h</small></p>' +
+          '<p class="pack__per">' + euro2(p.price / p.max) + ' per convidat</p>' +
           '<ul>' + t.items(p.max).map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' +
           '<a href="#reserva" class="btn" data-pick="' + p.id + '">Reserva el ' + p.name + '</a>' +
         '</article>';
@@ -198,6 +200,7 @@
       return '<li' + (l.v === 0 ? ' class="is-free"' : '') + '><span>' + l.k + '</span><span>' + (l.v === 0 ? 'Gratis' : euro(l.v)) + '</span></li>';
     }).join('');
     $('#tTotal').textContent = euro(total);
+    $('#tPer').textContent = euro2(total / n) + ' per convidat';
     $('#tPieces').textContent = pieces.toLocaleString('ca-ES');
     $('#tKg').textContent = (pieces * KG_PER_PIECE).toLocaleString('ca-ES', { maximumFractionDigits: 1 });
 
